@@ -4,4 +4,33 @@
 
 {% block content %}
 <h1 class="subject">CHAO MUNG CAC BAN DEN VOI TRANG CHU</h1>
+
+<br><br>
+<div class="content-container-anchor overlay-container-anchor">
+    <h2 class="title-anchor">Make a reservation</h2>
+    <div id="anchor-check-in">
+
+        <select name="rooms" class="rooms">
+                <option value="" selected="selected">Select a Room</option>
+                <option value="single">Single Room</option>
+                <option value="double">Double Room</option>
+                <option value="suite">Deluxe Suite</option>
+        </select>
+
+
+        <input type="date" class="arrival" value="Arrival">
+        <input type="date" class="departure" value="Departure">
+
+        <select name="adults" class="adults">
+                <option value="" selected="selected"># of Human</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+        </select>
+        <a href="#" class="button-anchor">Check Availability</a>
+        <div class="clearfix"></div>
+    </div><!-- close #anchor-check-in -->
+</div>
+<br><br>
 {% endblock %}

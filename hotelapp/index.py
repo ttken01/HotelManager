@@ -9,6 +9,6 @@ def home():
 
 
 if __name__ == '__main__':
-    #from saleapp.admin import *
+    from hotelapp.admin import *
 
     app.run(debug=True)
