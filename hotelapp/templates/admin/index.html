@@ -1,0 +1,100 @@
+{% extends 'admin/base.html' %}
+
+{% block body %}
+{{msg}}
+{% if current_user.is_authenticated %}
+<h1 class="text-info text-center"> WELCOME <span class="text-danger">{{ current_user.name }}</span> TO OUR WEBSITE!!! </h1>
+
+<br>
+<h3>Thoongs</h3>
+<div class="row">
+  <div class="col-md-5">
+    <table class="table">
+      <tr>
+        <th>Id</th>
+        <th>Tên</th>
+        <th>Số Lượng Phòng</th>
+      </tr>
+      {% for s in stats %}
+      <tr>
+        <td>{{s[0].id}}</td>
+        <td>{{s[0].name}}</td>
+        <td>{{s[1]}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="col-md-6">
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  let lables = [], counter=[], colors = [], borderColors = []
+  let r, g, b
+  {% for s in stats %}
+    lables.push('{{ s[0].name }}')
+    counter.push({{ s[1] }})
+
+    r = parseInt(Math.random()*255)
+    g = parseInt(Math.random()*255)
+    b = parseInt(Math.random()*255)
+    colors.push(`rgba(${r}, ${g}, ${b}, 0.2)`)
+    borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`)
+  {% endfor %}
+
+
+  window.onload = function() {
+    const ctx = document.getElementById('myChart').getContext('2d')
+    const myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: lables,
+            datasets: [{
+                label: 'Thống kê phòng theo loại phòng',
+                data: counter,
+                backgroundColor: colors,
+                borderColor: borderColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+  }
+</script>
+
+
+
+{% else %}
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div  class="fadeIn first">
+      <img src="{{ url_for('static', filename = 'images/defaultAvatar.png') }}" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <form method="post" action="{{ url_for('admin_login') }}">
+      <input type="text" id="login" class="fadeIn second" name="username" placeholder="login">
+      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import cloudinary
+from flask_login import LoginManager
 
 app = Flask(__name__)
 app.secret_key = 'alfdsjkbgaksjfjksdgakldg21432543@#$@#'
@@ -9,6 +10,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config['PAGE_SIZE'] = 8
 
 db = SQLAlchemy(app = app)
+
+login = LoginManager(app=app)
 
 cloudinary.config(
             cloud_name='dn9h5wifn' ,

@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, Float,  Enum, DateTime, Boolean,
 from sqlalchemy.orm import relationship
 from hotelapp import db
 from enum import Enum as UserEnum
+from flask_login import UserMixin
 
 class BaseModel(db.Model):
     __abstract__ = True
@@ -12,8 +13,9 @@ class BaseModel(db.Model):
 class UserRole(UserEnum):
     ADMIN = 1
     USER = 2
+    STAFF = 3
 
-class User(BaseModel):
+class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False, unique=True)
     password = Column(String(50), nullable=False)
