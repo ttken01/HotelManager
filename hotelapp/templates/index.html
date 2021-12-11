@@ -33,4 +33,19 @@
     </div><!-- close #anchor-check-in -->
 </div>
 <br><br>
+<div class="row">
+  {% for p in rooms %}
+  <div class="col-md-3 col-xs-12" style="padding: 5px">
+      <div class="card" style="padding: 5px">
+        <img class="card-img-top" src="{{url_for('static', filename = 'images/defaultAvatar.png')}}" alt={{ p.name }}>
+        <div class="card-body">
+          <h4 class="card-title">{{ p.name }}</h4>
+          <p class="card-text">{{ "{:,.1f}".format(p.price) }}</p>
+          <a href="#" class="btn btn-primary" onclick="addToCart({{ p.id }}, '{{ p.name }}', {{ p.price }})">Dat hang</a>
+        </div>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+<br><br>
 {% endblock %}

@@ -26,7 +26,47 @@ class User(BaseModel):
     def __str__(self):
         return self.name
 
+class Kind(BaseModel):
+    __tablename__ = 'kind'
+
+    name = Column(String(50), nullable=False)
+    rooms = relationship('Room', backref='kind', lazy=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+class Room(BaseModel):
+    __tablename__ = 'room'
+
+    name = Column(String(50), nullable=False)
+    description = Column(String(255))
+    price = Column(Float, default=0)
+    active = Column(Boolean, default=True)
+    image = Column(String(100))
+    amount = Column(Integer, default = 1)
+    kind_id = Column(Integer, ForeignKey(Kind.id), nullable=False)
+    receipt_details = relationship('ReceiptDetail', backref='room', lazy=True)
+
+    def __str__(self):
+        return self.name
+
+class Receipt(BaseModel):
+    start_date = Column(DateTime, default = datetime.now())
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    end_date = Column(DateTime, default = datetime.now())
+    details = relationship('ReceiptDetail', backref='receipt', lazy=False)
+
+
+class ReceiptDetail(BaseModel):
+    receipt_id = Column(Integer, ForeignKey(Receipt.id), nullable=False)
+    room_id = Column(Integer, ForeignKey(Room.id), nullable=False)
+    paid = Column(Boolean, default=False)
+    unit_price = Column(Float, default=0)
+
+
 if __name__ == '__main__':
-    pass
+    #pass
     #db.run(debug=True)
-    #db.create_all()
+    db.create_all()
