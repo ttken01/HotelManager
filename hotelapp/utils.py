@@ -9,3 +9,7 @@ def load_kind():
 
 def load_room():
     return Room.query.filter(Room.active.__eq__(True))
+
+
+
+

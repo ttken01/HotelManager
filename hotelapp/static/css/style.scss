@@ -1,0 +1,136 @@
+$primary-color: #fff;
+$sub-color: rgba(178, 64, 93, 1);
+$background-color: rgba(8, 2, 3, 1);
+$body-font-size: 1rem;
+$body-font-weight: 400;
+$font-family: 'Inter', sans-serif;
+
+*{
+    box-sizing: border-box;
+}
+html{
+    font-family: $font-family;
+    background: $background-color;
+    color: $primary-color;
+    font-size: 100%;
+    font-weight: $body-font-weight;
+    scroll-behavior: smooth;
+}
+img{
+    width: 100%;
+    height: auto;
+}
+a{
+    color: $primary-color;
+    text-decoration: none;
+}
+button{
+    font-family: $font-family;
+    cursor: pointer;
+    background: transparent;
+    outline: none;
+    border:none;
+  
+}
+input{
+    font-family: $font-family;
+}
+
+
+h1{
+    font-size: 4rem;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 150%;
+}
+h2{
+    font-size:3.2rem;
+    font-style: normal;
+    font-weight: bold;
+}
+h3{
+    font-weight: bold;
+    font-size: 2.4rem;
+    line-height: 2.9rem;
+
+    letter-spacing: 0.01em;
+}
+h4{
+    font-size: 2rem;
+    line-height: 2.9rem;
+    font-weight: 600;
+}
+
+
+//------------------------------------------header--------------------------------
+
+
+
+
+
+
+
+//------------------------------------------overlay menu--------------------------------
+
+
+
+
+
+
+//------------------------------------------features--------------------------------
+
+
+
+
+
+//------------------------------------------services--------------------------------
+
+
+
+
+
+
+
+//------------------------------------------footer--------------------------------
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------responsive--------------------------------
+
+@media only screen and (max-width:70em){
+    html{
+        font-size: 85%;
+    }
+}
+@media only screen and (max-width:69em){
+    html{
+        font-size: 80%;
+    }
+}
+ 
+@media only screen and (max-width:52em){
+    html{
+        font-size: 70%;
+    }
+}   
+
+@media only screen and (max-width:42em){
+    html{
+        font-size: 60%;
+    }     
+}
+
+
+@media only screen and (max-width:25em){
+    html{
+        font-size: 50%;
+    }
+}
+
