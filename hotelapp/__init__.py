@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import cloudinary
 from flask_login import LoginManager
+from flask_babelex import Babel
+
 
 app = Flask(__name__)
 app.secret_key = 'alfdsjkbgaksjfjksdgakldg21432543@#$@#'
@@ -12,6 +14,16 @@ app.config['PAGE_SIZE'] = 8
 db = SQLAlchemy(app = app)
 
 login = LoginManager(app=app)
+
+babel = Babel(app)
+
+
+@babel.localeselector
+def get_locale():
+        # Put your logic here. Application can store locale in
+        # user profile, cookie, session, etc.
+        return 'vi'
+
 
 cloudinary.config(
             cloud_name='dn9h5wifn' ,
