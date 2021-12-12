@@ -17,7 +17,7 @@ login = LoginManager(app=app)
 
 babel = Babel(app)
 
-
+#Dia phuong hoa
 @babel.localeselector
 def get_locale():
         # Put your logic here. Application can store locale in
