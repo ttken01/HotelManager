@@ -47,7 +47,7 @@ class LogoutView(AuthenticatedBaseView):
 
 
 #Trang mới: Thống kê báo cáo
-class StatsView(AuthenticatedBaseView):
+class StatsView(BaseView):
 
     @expose('/')
     def __index__(self):
@@ -59,6 +59,9 @@ class StatsView(AuthenticatedBaseView):
         return self.render('admin/stats.html',
                            receipts = receipts,
                            receiptsDetail=receiptDetails)
+
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 
 
 
