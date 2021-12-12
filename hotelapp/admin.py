@@ -8,7 +8,7 @@ from flask import redirect
 
 
 
-
+# Đăng nhập với tư cách admin
 class AuthenticatedModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
@@ -31,6 +31,8 @@ class RoomView(AuthenticatedModelView):
     }
     column_sortable_list = ['id', 'name', 'price']
 
+
+#bắt đăng nhập mới hiện trang dữ liệu
 class AuthenticatedBaseView(BaseView):
     def is_accessible(self):
         return current_user.is_authenticated
@@ -44,14 +46,23 @@ class LogoutView(AuthenticatedBaseView):
         return redirect('/admin')
 
 
-
+#Trang mới: Thống kê báo cáo
 class StatsView(AuthenticatedBaseView):
 
     @expose('/')
     def __index__(self):
-        return self.render('admin/stats.html')
+
+        receipts = utils.load_receipt()
+        receiptDetails = utils.load_ReceiptDetail()
 
 
+        return self.render('admin/stats.html',
+                           receipts = receipts,
+                           receiptsDetail=receiptDetails)
+
+
+
+#xử lý thống kê Home Admin
 class MyAdminIndexView(AdminIndexView):
 
     @expose('/')
@@ -71,5 +82,5 @@ admin = Admin(app=app,
 admin.add_view(AuthenticatedModelView(Kind, db.session, name='Loại phòng'))
 admin.add_view(RoomView(Room, db.session, name='Phòng'))
 admin.add_view(AuthenticatedModelView(User, db.session, name='Người dùng'))
-admin.add_view(LogoutView(name='Đăng xuất'))
 admin.add_view(StatsView(name='Thống kê báo cáo'))
+admin.add_view(LogoutView(name='Đăng xuất'))

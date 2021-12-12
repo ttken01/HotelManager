@@ -6,41 +6,44 @@
 <h1 class="subject">CHAO MUNG CAC BAN DEN VOI TRANG CHU</h1>
 
 <br><br>
-<div class="content-container-anchor overlay-container-anchor">
+<form action="{{ url_for('home') }}" method="post">
     <h2 class="title-anchor">Make a reservation</h2>
-    <div id="anchor-check-in">
-
-        <select name="rooms" class="rooms">
-                <option value="" selected="selected">Select a Room</option>
-                <option value="single">Single Room</option>
-                <option value="double">Double Room</option>
-                <option value="suite">Deluxe Suite</option>
+    <div class="form-group">
+        <lable for="kind">Kind</lable>
+        <select name="kind" class="form-control" id="kind">
+            {% for c in kind %}
+                <option class="lt" value="{{ c.id }}">{{c.name}}</option>
+            {% endfor %}
         </select>
-
-
-        <input type="date" class="arrival" value="Arrival">
-        <input type="date" class="departure" value="Departure">
-
-        <select name="adults" class="adults">
-                <option value="" selected="selected"># of Human</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
+    </div>
+    <div class="form-group">
+        <div><lable for="startdate">Ngày</lable></div>
+        <input type="date" class="arrival" id="startdate" name="startdate">
+    </div>
+    <div class="form-group">
+        <div><lable for="enddate">Đến ngày</lable></div>
+        <input type="date" class="arrival" id="enddate" name="enddate">
+    </div>
+    <div class="form-group">
+        <lable for="amount">Số người</lable>
+        <select class="form-control" name="amount" id="amount">
+                <option value="2">4</option>
+                <option value="4">2</option>
+                <option value="6">6</option>
         </select>
-        <a href="#" class="button-anchor">Check Availability</a>
-        <div class="clearfix"></div>
-    </div><!-- close #anchor-check-in -->
-</div>
+    </div>
+        <input type="submit" class="btn btn-success" value="Search">
+
+</form>
 <br><br>
 <div class="row">
   {% for p in rooms %}
   <div class="col-md-3 col-xs-12" style="padding: 5px">
       <div class="card" style="padding: 5px">
-        <img class="card-img-top" src="{{url_for('static', filename = 'images/defaultAvatar.png')}}" alt={{ p.name }}>
+        <img class="card-img-top" src="{{url_for('static', filename = 'images/defaultRoom.png')}}" alt={{ p.name }}>
         <div class="card-body">
           <h4 class="card-title">{{ p.name }}</h4>
-          <p class="card-text">{{ "{:,.1f}".format(p.price) }}</p>
+          <p class="card-text">{{ "{:,.1f}".format(p.price) }} VND</p>
           <a href="#" class="btn btn-primary" onclick="addToCart({{ p.id }}, '{{ p.name }}', {{ p.price }})">Dat hang</a>
         </div>
       </div>

@@ -14,6 +14,28 @@
       <li class="nav-item">
         <a class="nav-link" href="/">Trang Chủ</a>
       </li>
+      {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link text-success" href="{{url_for('home')}}">
+            {% if current_user.avatar %}
+              <img src="{{ current_user.avatar }}" class="rounded-circle" width="30" alt="{{ current_user.name }}">
+            {% else %}
+              <img src="{{ url_for('static', filename ='images/logo.jpeg') }}" class="rounded-circle" width="30" alt="avatar">
+            {% endif %}
+            {{ current_user.username }}
+          </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-success" href="{{url_for('user_signout')}}">Dang xuat</a>
+          </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="{{ url_for('user_register') }}">Dang ky</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-success" href="{{url_for('user_signin')}}">Dang nhap</a>
+        </li>
+        {% endif %}
     </ul>
   </div>
 </nav>
