@@ -2,13 +2,14 @@
 /* BASIC */
 
 html {
-  background-color: #56baed;
+  /* background-color: #56baed; */
 }
 
 body {
   font-family: "Poppins", sans-serif;
-  height: 100vh;
+  padding-bottom: 10rem;
 }
+
 
 a {
   color: #92badd;
@@ -255,6 +256,10 @@ input[type=text]:placeholder {
 
 
 
+
+
+
+
 /* OTHERS */
 
 *:focus {
@@ -264,7 +269,12 @@ input[type=text]:placeholder {
 #icon {
   width:60%;
 }
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+      /* <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
       <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
       <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> */
+
+
+

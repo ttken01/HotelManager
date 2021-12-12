@@ -1,0 +1,34 @@
+/* ------------------------------------------bootstrap------------------------------------------ */
+input[type=submit]{
+    margin: .5rem 2rem 4rem 2rem;
+    padding: 1.5rem 8rem;
+    
+  }
+  .btn-danger{
+    margin: .5rem 2rem 4rem 2rem;
+  }
+  
+  
+
+
+
+
+
+@media only screen and (max-width: 992px) {
+    .container {
+        max-width:unset !important;
+    }
+  }
+  
+
+  @media only screen and (max-width: 612px) {
+    html {
+        font-size: 70%;
+    }
+  }
+
+  @media only screen and (max-width: 435px) {
+    html {
+        font-size: 50%;
+    }
+  }
