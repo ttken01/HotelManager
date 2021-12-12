@@ -2,13 +2,14 @@
 /* BASIC */
 
 html {
-  background-color: #56baed;
+  /* background-color: #56baed; */
 }
 
 body {
   font-family: "Poppins", sans-serif;
-  height: 100vh;
+  padding-bottom: 10rem;
 }
+
 
 a {
   color: #92badd;
