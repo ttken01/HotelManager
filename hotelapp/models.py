@@ -71,4 +71,13 @@ class ReceiptDetail(BaseModel):
 if __name__ == '__main__':
     #pass
     #db.run(debug=True)
+    # k1 = Kind(name='Standard')
+    # k2 = Kind(name='Superior')
+    # k3 = Kind(name='Deluxe')
+    # k4 = Kind(name='Suite')
+    # db.session.add(k1)
+    # db.session.add(k2)
+    # db.session.add(k3)
+    # db.session.add(k4)
+    # db.session.commit()
     db.create_all()

@@ -83,7 +83,8 @@ h2.active {
 /* FORM TYPOGRAPHY*/
 
 input[type=button], input[type=submit], input[type=reset]  {
-  background-color: #56baed;
+  background-color:  #ffa31a
+;
   border: none;
   color: white;
   padding: 15px 80px;
@@ -278,3 +279,17 @@ input[type=text]:placeholder {
 
 
 
+.carousel-item{
+}
+.carousel-item >img {
+  height:800px;
+}
+.form-search{
+  position: relative;
+}
+.btn-submit{
+  position: absolute  !important;
+  top:50%;
+  right: 0;
+  transform: translate(-50%,-50%);
+}
