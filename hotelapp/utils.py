@@ -69,6 +69,23 @@ def room_count_by_cate():
         .add_columns(func.count(Room.id)).group_by(Kind.id).all()
 
 
-def room_stats(kw=None, from_date=None, to_Date=None):
-    p = db.session.query(Room.id, Room.name, func.sum())
-    pass
+#Lọc dữ liệu bảng thông kê trên admin
+def room_stats(kw=None, from_date=None, to_date=None):
+    p = db.session.query(Room.id, Room.name, func.sum(ReceiptDetail.unit_price))\
+                .join(ReceiptDetail, ReceiptDetail.room_id.__eq__(Room.id), isouter=True)\
+                .join(Receipt, Receipt.id.__eq__(ReceiptDetail.receipt_id))\
+                .group_by(Room.id, Room.name)
+
+    #xem doanh thu theo tên phòng
+    if kw:
+        p = p.filter(Room.name.contains(kw))
+
+    #xuất ra doanh thu thông tin phòng từ ngày from_date
+    if from_date:
+        p = p.filter(Receipt.start_date.__ge__(from_date))
+
+    #xem doanh thu những phòng trước ngày to_date
+    if to_date:
+        p = p.filter(Receipt.end_date.__le__(to_date))
+
+    return p.all()

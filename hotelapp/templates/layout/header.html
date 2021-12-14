@@ -32,11 +32,11 @@
       <li class="nav-item">
         <a class="nav-link text-success" href="{{url_for('home')}}">
           {% if current_user.avatar %}
-            <img src="{{ current_user.avatar }}" class="rounded-circle" width="30" alt="{{ current_user.name }}">
+            <img src="{{ current_user.avatar }}" class="rounded-circle" style="width: 40px" alt="{{ current_user.name }}">
           {% else %}
-            <img src="{{ url_for('static', filename ='images/logo.jpeg') }}" class="rounded-circle" width="30" alt="avatar">
+            <img src="{{ url_for('static', filename ='images/defaultAvatar.png') }}" class="rounded-circle" style="width: 40px" alt="avatar">
           {% endif %}
-          {{ current_user.username }}
+            {{ current_user.username }}
         </a>
         </li>
         <li class="nav-item">
@@ -71,7 +71,12 @@
         <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
         <li>
           <a class="navbar-brand" href="/">
-            <img src="{{url_for('static', filename = 'images/defaultAvatar.png')}}" alt="Logo" style="width:40px;">
+            {% if current_user.avatar %}
+              <img src="{{ current_user.avatar }}" class="rounded-circle" style="width: 40px" alt="{{ current_user.name }}">
+            {% else %}
+              <img src="{{ url_for('static', filename ='images/defaultAvatar.png') }}" class="rounded-circle" style="width: 40px" alt="avatar">
+            {% endif %}
+              {{ current_user.username }}
         </a>
         </li>
       </ul>
