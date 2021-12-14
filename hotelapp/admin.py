@@ -4,7 +4,7 @@ from flask_admin.contrib.sqla import ModelView
 from hotelapp.models import Kind, Room, User, UserRole
 from flask_admin import BaseView, expose, AdminIndexView
 from flask_login import logout_user, current_user
-from flask import redirect
+from flask import redirect, request
 
 
 
@@ -51,14 +51,13 @@ class StatsView(BaseView):
 
     @expose('/')
     def __index__(self):
+        kw = request.args.get('kw')
+        from_date = request.args.get('from_date')
+        to_date = request.args.get('to_date')
 
-        receipts = utils.load_receipt()
-        receiptDetails = utils.load_ReceiptDetail()
-
-
-        return self.render('admin/stats.html',
-                           receipts = receipts,
-                           receiptsDetail=receiptDetails)
+        return self.render('admin/stats.html', stats=utils.room_stats(kw=kw,
+                                                                      from_date=from_date,
+                                                                      to_date=to_date))
 
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
