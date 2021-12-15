@@ -21,7 +21,7 @@
 
 <br><br>
 <form class="form-search" action="{{ url_for('home') }}" method="post">
-    <div class="row align-items-center">
+         <div class="row align-items-center">
         <lable for="kind" class="col-md-2 font-weight-bold">Kind</lable>
         <select name="kind" class="form-control col-md-2" id="kind">
             {% for c in kind %}
@@ -43,10 +43,11 @@
         <label for="enddate" class="font-weight-bold col-md-2">Check out</label>
         <input type="date" class="arrival col-md-6" id="enddate" name="enddate">
     </div>
-    <div class="row">
+
             <div class="col-md-3"></div>
             <input type="submit" class="btn  btn-submit" value="Search">
-    </div>
+
+
 
 </form>
 <br><br>
