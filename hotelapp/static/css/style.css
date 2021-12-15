@@ -33,6 +33,8 @@ h2 {
 /* STRUCTURE */
 
 .wrapper {
+  position:relative;
+  z-index: 1000;
   display: flex;
   align-items: center;
   flex-direction: column; 
@@ -224,14 +226,12 @@ input[type=text]:placeholder {
 }
 
 .fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
+
   animation-delay: 0.8s;
 }
 
 .fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
+
   animation-delay: 1s;
 }
 
@@ -297,4 +297,7 @@ input[type=text]:placeholder {
   right: 0 ;
   top:50%;
   transform: translate(-50%,-50%);
+}
+.wrapper{
+  transform: translateY(100%);
 }

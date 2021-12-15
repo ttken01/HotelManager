@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from hotelapp import db
 from enum import Enum as UserEnum
 from flask_login import UserMixin
+import hashlib
 
 class BaseModel(db.Model):
     __abstract__ = True
@@ -79,5 +80,10 @@ if __name__ == '__main__':
     # db.session.add(k2)
     # db.session.add(k3)
     # db.session.add(k4)
+    # db.session.commit()
+    # password='123';
+    # password=str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    # u1 = User(name='administrator', username= 'admin', password=password, user_role=UserRole.ADMIN )
+    # db.session.add(u1)
     # db.session.commit()
     db.create_all()
