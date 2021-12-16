@@ -14,44 +14,39 @@
       <img class="d-block w-100" src="https://wallpaperaccess.com/full/2690549.jpg" alt="Third slide">
     </div>
   </div>
+    <div class="container">
+          <form class="form-search" action="{{ url_for('home') }}" method="post">
+                 <div class="row align-items-center">
+                <lable for="kind" class="col-md-2 font-weight-bold">Kind</lable>
+                <select name="kind" class="form-control col-md-2" id="kind">
+                    {% for c in kind %}
+                        <option class="lt" value="{{ c.id }}">{{c.name}}</option>
+                    {% endfor %}
+                </select>
+                <lable for="amount" class="font-weight-bold col-md-2">Số người</lable>
+                <select class="form-control col-md-2" name="amount" id="amount">
+                        <option value="2">4</option>
+                        <option value="4">2</option>
+                        <option value="6">6</option>
+                </select>
+            </div>
+            <div class="row align-items-center">
+                <label for="startdate" class=" font-weight-bold col-md-2">Check in</label>
+                <input type="date" class="arrival col-md-6" id="startdate" name="startdate">
+            </div>
+            <div class="row align-items-center">
+                <label for="enddate" class="font-weight-bold col-md-2">Check out</label>
+                <input type="date" class="arrival col-md-6" id="enddate" name="enddate">
+            </div>
 
+                    <div class="col-md-3"></div>
+                    <input type="submit" class="btn  btn-submit" value="Search">
+        </form>
+    </div>
 </div>
 {% endblock %}
 {% block content %}
-
-<br><br>
-<form class="form-search" action="{{ url_for('home') }}" method="post">
-         <div class="row align-items-center">
-        <lable for="kind" class="col-md-2 font-weight-bold">Kind</lable>
-        <select name="kind" class="form-control col-md-2" id="kind">
-            {% for c in kind %}
-                <option class="lt" value="{{ c.id }}">{{c.name}}</option>
-            {% endfor %}
-        </select>
-        <lable for="amount" class="font-weight-bold col-md-2">Số người</lable>
-        <select class="form-control col-md-2" name="amount" id="amount">
-                <option value="2">4</option>
-                <option value="4">2</option>
-                <option value="6">6</option>
-        </select>
-    </div>
-    <div class="row align-items-center">
-        <label for="startdate" class=" font-weight-bold col-md-2">Check in</label>
-        <input type="date" class="arrival col-md-6" id="startdate" name="startdate">
-    </div>
-    <div class="row align-items-center">
-        <label for="enddate" class="font-weight-bold col-md-2">Check out</label>
-        <input type="date" class="arrival col-md-6" id="enddate" name="enddate">
-    </div>
-
-            <div class="col-md-3"></div>
-            <input type="submit" class="btn  btn-submit" value="Search">
-
-
-
-</form>
-<br><br>
-<div class="row">
+<div class=" {% if rooms %} row list-room {% endif %}">
   {% for p in rooms %}
   <div class="col-md-3 col-xs-12" style="padding: 5px">
       <div class="card" style="padding: 5px">
@@ -65,5 +60,4 @@
   </div>
   {% endfor %}
 </div>
-<br><br>
 {% endblock %}

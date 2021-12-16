@@ -1,9 +1,10 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Dang ky nguoi dung{% endblock %}
+{% block title %}Đăng kí tài khoản{% endblock %}
 
 {% block content%}
-<h1 class="text-center text-danger">ĐĂNG KÝ NGƯỜI DÙNG</h1>
+<div class="register">
+    <h1 class="text-center  text-danger">ĐĂNG KÝ NGƯỜI DÙNG</h1>
 
 {% if err_msg %}
 <div class="alert alert-danger">
@@ -17,27 +18,29 @@
         <input type="text" class="form-control" id="name" name="name" required>
     </div>
     <div class="form-group">
-        <lable for="email">Email</lable>
+        <label for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email">
     </div>
     <div class="form-group">
-        <lable for="username">Username</lable>
+        <label for="username">Username</label>
         <input type="text" class="form-control" id="username" name="username" required>
     </div>
     <div class="form-group">
-        <lable for="pass">Password</lable>
+        <label for="pass">Password</label>
         <input type="password" class="form-control" id="pass" name="password" >
     </div>
     <div class="form-group">
-        <lable for="confirm">Confirm Password</lable>
+        <label for="confirm">Confirm Password</label>
         <input type="password" class="form-control" id="confirm" name="confirm">
     </div>
     <div class="form-group">
         <lable for="avatar">AVATAR</lable>
         <input type="file" class="form-control" id="avatar" name="avatar">
     </div>
-    <input type="submit" value="Dang Ky" class="btn btn-danger">
+    <input type="submit" value="Dang Ky" class="btn btn-danger ">
 
 </form>
+</div>
+
 <br><br>
 {% endblock %}

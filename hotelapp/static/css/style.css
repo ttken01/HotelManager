@@ -284,12 +284,14 @@ input[type=text]:placeholder {
 .carousel-item >img {
   height:800px;
 }
+
 .form-search{
   position: relative;
-  transform: translateY(-150%);
   background: white;
   padding: 20px;
   border-radius: 10px;
+  transform: translateY(-120%);
+  cursor: pointer;
 }
 .btn-submit{
   position: absolute  !important;
@@ -300,4 +302,10 @@ input[type=text]:placeholder {
 }
 .wrapper{
   transform: translateY(100%);
+}
+.list-room{
+  transform: translateY(-50%);
+}
+.register{
+  margin-top:200px;
 }
