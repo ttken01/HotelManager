@@ -34,7 +34,12 @@ class RoomView(AuthenticatedModelView):
 
 #bắt đăng nhập mới hiện trang dữ liệu
 class AuthenticatedBaseView(BaseView):
+    column_display_pk = True
+    can_view_details = True
+    can_export = True
+    column_filters = ['name', 'username']
     def is_accessible(self):
+
         return current_user.is_authenticated
 
 
