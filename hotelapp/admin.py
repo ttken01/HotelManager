@@ -31,13 +31,17 @@ class RoomView(AuthenticatedModelView):
     }
     column_sortable_list = ['id', 'name', 'price']
 
-
-#bắt đăng nhập mới hiện trang dữ liệu
-class AuthenticatedBaseView(BaseView):
+class UserView(AuthenticatedModelView):
     column_display_pk = True
     can_view_details = True
     can_export = True
     column_filters = ['name', 'username']
+    column_searchable_list = ['name', 'username']
+    column_exclude_list = ['avatar', 'active', 'joined_date']
+
+
+#bắt đăng nhập mới hiện trang dữ liệu
+class AuthenticatedBaseView(BaseView):
     def is_accessible(self):
 
         return current_user.is_authenticated
@@ -88,6 +92,6 @@ admin = Admin(app=app,
 
 admin.add_view(AuthenticatedModelView(Kind, db.session, name='Loại phòng'))
 admin.add_view(RoomView(Room, db.session, name='Phòng'))
-admin.add_view(AuthenticatedModelView(User, db.session, name='Người dùng'))
+admin.add_view(UserView(User, db.session, name='Người dùng'))
 admin.add_view(StatsView(name='Thống kê báo cáo'))
 admin.add_view(LogoutView(name='Đăng xuất'))
