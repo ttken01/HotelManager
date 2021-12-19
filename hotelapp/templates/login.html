@@ -3,6 +3,8 @@
 {% block title %}Dang nhap nguoi dung{% endblock %}
 
 {% block content%}
+    <h1 class="text-center text-danger">ĐĂNG NHẬP</h1>
+
 
     <div class="wrapper fadeInDown">
       <div id="formContent">
@@ -24,7 +26,13 @@
         <div id="formFooter">
           <a class="underlineHover" href="#">Forgot Password?</a>
         </div>
-
+         {% if err_msg %}
+        <div class="alert alert-danger">
+            <p><i class="text text-danger">{{ err_msg }}</i></p>
+        </div>
+        {% endif %}
       </div>
     </div>
+
+
 {% endblock %}

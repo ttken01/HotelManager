@@ -72,7 +72,7 @@ def user_signout():
 @app.context_processor
 def common_response():
     return {
-        'kind' : utils.load_kind()
+        'kind': utils.load_kind()
     }
 
 
@@ -83,6 +83,8 @@ def load_user(user_id):
 
 @app.route('/admin-login', methods=['post'])
 def admin_login():
+
+
     username = request.form.get('username')
     password = request.form.get('password')
 
