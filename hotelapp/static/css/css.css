@@ -5,13 +5,16 @@
 
 html {
   font-family: "Inter", sans-serif;
-  background: white;
+  background: #1A1814;
   color: black;
   font-size: 100%;
   font-weight: 400;
   scroll-behavior: smooth;
 }
 
+body {
+  background: #1A1814 !important;
+}
 
 img {
   width: 100%;
