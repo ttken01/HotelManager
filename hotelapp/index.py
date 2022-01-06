@@ -1,5 +1,5 @@
 from hotelapp import app, db, login
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 import utils
 from flask_login import login_user, logout_user
 from hotelapp.admin import *
@@ -11,11 +11,18 @@ def home():
     if request.method.__eq__('POST'):
         kind = request.form.get('kind')
         amount = request.form.get('amount')
+        from_date = request.form.get('startdate')
+        to_date = request.form.get('enddate')
 
-        rooms = utils.load_room(kind=kind, amount=int(amount))
+        rooms = utils.load_room(kind=kind, amount=int(amount), from_date =from_date, to_date=to_date)
         return render_template('index.html', rooms=rooms)
 
     else: return render_template('index.html')
+
+@app.route('/staff1')
+def staff1():
+    rooms = utils.load_room()
+    return render_template('staff1.html', rooms=rooms)
 
 
 @app.route('/register', methods = ['post', 'get'])
@@ -72,7 +79,8 @@ def user_signout():
 @app.context_processor
 def common_response():
     return {
-        'kind': utils.load_kind()
+        'kind': utils.load_kind(),
+        'userRole' : UserRole
     }
 
 
@@ -95,6 +103,19 @@ def admin_login():
 
 
     return redirect('/admin')
+
+
+#@app.route('/api/ađ-cart', method=['post'])
+#def add_to_cart():
+    #id = ''
+    #name = ''
+    #price = ''
+
+    #cart = session.get('cart')
+    #if cart:
+     #   cart = {}
+
+    #pass
 
 
 if __name__ == '__main__':

@@ -8,13 +8,19 @@ def load_kind():
     return Kind.query.all()
 
 #lấy dữ liệu phòng
-def load_room(kind = None, amount = None):
+def load_room(kind = None, amount = None, from_date = None, to_date = None):
 
     rooms =  Room.query.filter(Room.active.__eq__(True))
     if kind:
         rooms = rooms.filter(Room.kind_id.__eq__(kind))
     if amount:
         rooms = rooms.filter(Room.amount.__eq__(amount))
+
+
+
+
+
+
 
     return rooms.all()
 
