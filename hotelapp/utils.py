@@ -40,7 +40,8 @@ def load_ReceiptDetail():
 def get_user_by_id(user_id):
     return User.query.get(user_id)
 
-
+def get_user_by_username(user_name):
+    return User.query.get(user_name)
 
 #them user
 def add_user(name, username, password, **kwargs):
@@ -54,6 +55,10 @@ def add_user(name, username, password, **kwargs):
     db.session.add(user)
     db.session.commit()
 
+
+#Thêm đơn đặt phòng
+def add_receipt():
+    pass
 
 
 #check account login có đúng không

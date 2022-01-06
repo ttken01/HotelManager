@@ -43,8 +43,8 @@
         </a>
         </li>
         {% if current_user.user_role == userRole.STAFF %}
-          <li><a class="nav-link scrollto" href="/staff1">Đặt Phòng</a></li>
-          <li><a class="nav-link scrollto" href="#">Danh Sách Đặt Phòng</a></li>
+          <li><a class="nav-link scrollto" href="/staff1">BOOKING</a></li>
+          <li><a class="nav-link scrollto" href="#">BOOKING LIST</a></li>
         {% endif %}
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('user_signout')}}">Log out</a>

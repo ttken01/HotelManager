@@ -17,7 +17,33 @@
 </div>
 {% endblock %}
 {% block content %}
+
+
+  <div class="container">
+          <form class="form-search" action="{{ url_for('staff1') }}" method="post">
+            <div class="row align-items-center">
+                  <label for="username" class=" font-weight-bold col-md-2">Username Cus</label>
+                  <input type="text" class="arrival col-md-6" id="username" name="username">
+            </div>
+            <div class="row align-items-center">
+                  <label for="roomid" class=" font-weight-bold col-md-2">Room Id</label>
+                  <input type="text" class="arrival col-md-6" id="roomid" name="roomid">
+            </div>
+            <div class="row align-items-center">
+                  <label for="startdate" class=" font-weight-bold col-md-2">Check in</label>
+                  <input type="date" class="arrival col-md-6" id="startdate" name="startdate">
+            </div>
+            <div class="row align-items-center">
+                  <label for="enddate" class="font-weight-bold col-md-2">Check out</label>
+                  <input type="date" class="arrival col-md-6" id="enddate" name="enddate">
+            </div>
+
+                      <div class="col-md-3"></div>
+                      <input type="submit" class="btn  btn-submit" value="BOOKING">
+          </form>
+      </div>
  <!-- ======= Menu Section ======= -->
+<br><br><br><br><br>
  <section id="menu" class="menu section-bg">
   <div class="container" data-aos="fade-up">
 
@@ -38,16 +64,28 @@
       </div>
     </div>
 
+
+
     <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
 
       {% for p in rooms %}
       <div class="col-lg-6 menu-item filter-starters">
         <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt={{ p.name }}>
         <div class="menu-content">
+
           <a href="#">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
         </div>
         <div class="menu-ingredients">
-          {{p.kind_id}}
+            ROOM ID:
+          {{p.id}}
+        </div>
+        <div class="menu-ingredients">
+            Amount:
+          {{p.amount}}
+        </div>
+        <div class="menu-ingredients">
+            Description:
+          {{p.description}}
         </div>
       </div>
       {% endfor %}

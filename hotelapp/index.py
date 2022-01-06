@@ -19,9 +19,21 @@ def home():
 
     else: return render_template('index.html')
 
-@app.route('/staff1')
+@app.route('/staff1', methods = ['post', 'get'])
 def staff1():
     rooms = utils.load_room()
+    err_msg = ""
+    if request.method.__eq__('POST'):
+        username = request.form.get('username')
+        roomid = request.form.get('roomid')
+        from_date = request.form.get('startdate')
+        to_date = request.form.get('enddate')
+        user = utils.get_user_by_username(user_name=username.strip())
+        try:
+                return redirect(url_for('staff1'))
+        except Exception as ex:
+            err_msg = 'He thong dang co loi:' + str(ex)
+
     return render_template('staff1.html', rooms=rooms)
 
 
