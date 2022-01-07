@@ -19,12 +19,14 @@
                  <div class="row align-items-center">
                 <lable for="kind" class="col-md-2 font-weight-bold">Kind</lable>
                 <select name="kind" class="form-control col-md-2" id="kind">
+                    <option></option>
                     {% for c in kind %}
                         <option class="lt" value="{{ c.id }}">{{c.name}}</option>
                     {% endfor %}
                 </select>
                 <lable for="amount" class="font-weight-bold col-md-2">Số người</lable>
                 <select class="form-control col-md-2" name="amount" id="amount">
+                        <option></option>
                         <option value="2">2</option>
                         <option value="4">4</option>
                         <option value="6">6</option>

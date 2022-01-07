@@ -2,7 +2,7 @@
 
 {% block body %}
 <h1 class="text-center text-danger">THỐNG KÊ BÁO CÁO</h1>
-
+<br>
 
 <div class="row">
     <div class="col-md-5 col-xs-12">
@@ -43,7 +43,35 @@
         <canvas id="myChart" width="400" height="400"></canvas>
     </div>
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<br><br>
+<h1 class="text-center text-danger">Mật độ thuê phòng</h1>
+<br>
+<div class="row">
+    <div class="col-md-5 col-xs-12">
+        <table class="table">
+            <tr>
+                <th>Tên phòng</th>
+                <th>Số lần được thuê</th>
+
+            </tr>
+            {% for d in statsUsed %}
+            <tr>
+                <th>{{ d[0] }}</th>
+                <th>{{ d[1] }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-6">
+        <canvas id="myChart2" width="400" height="400"></canvas>
+    </div>
+
+
+</div>
+
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       let lables = [], counter=[], colors = [], borderColors = []
       let r, g, b
@@ -61,9 +89,28 @@
       {% endfor %}
 
 
+      let lables1 = [], counter1=[], colors1 = [], borderColors1 = []
+      let r1, g1, b1
+      {% for d in statsUsed %}
+
+        lables1.push('{{ d[0] }}')
+        counter1.push({{ d[1] }})
+
+        r1 = parseInt(Math.random()*255)
+        g1 = parseInt(Math.random()*255)
+        b1 = parseInt(Math.random()*255)
+        colors1.push(`rgba(${r1}, ${g1}, ${b1}, 0.2)`)
+        borderColors1.push(`rgba(${r1}, ${g1}, ${b1}, 1)`)
+
+      {% endfor %}
+
+
+
       window.onload = function() {
         const ctx = document.getElementById('myChart').getContext('2d')
         loadChart(ctx, lables, counter, 'bar', colors, borderColors )
+        const ctx1 = document.getElementById('myChart2').getContext('2d')
+        loadChart1(ctx1, lables1, counter1, 'doughnut', colors1, borderColors1 )
       }
 
      function loadChart( ctx, lables, counter, type, colors, borderColors) {
@@ -88,5 +135,28 @@
                 }
             });
      }
+     function loadChart1( ctx, lables, counter, type, colors, borderColors) {
+         const myChart = new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: lables,
+                    datasets: [{
+                        label: 'Thống kê doanh thu',
+                        data: counter,
+                        backgroundColor: colors,
+                        borderColor: borderColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+     }
     </script>
+
 {% endblock %}

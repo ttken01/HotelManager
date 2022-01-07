@@ -100,3 +100,12 @@ def room_stats(kw=None, from_date=None, to_date=None):
         p = p.filter(Receipt.end_date.__le__(to_date))
 
     return p.all()
+
+#Thống kê mật độ sử dụng phòng
+def room_stats_used():
+    p =  db.session.query(Room.name, func.count(Room.id))\
+        .join(ReceiptDetail, ReceiptDetail.room_id.__eq__(Room.id), isouter = True) \
+        .join(Receipt, Receipt.id.__eq__(ReceiptDetail.receipt_id))\
+        .group_by(Room.name)
+
+    return p.all()

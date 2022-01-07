@@ -66,7 +66,7 @@ class StatsView(BaseView):
 
         return self.render('admin/stats.html', stats=utils.room_stats(kw=kw,
                                                                       from_date=from_date,
-                                                                      to_date=to_date))
+                                                                      to_date=to_date), statsUsed=utils.room_stats_used())
 
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN

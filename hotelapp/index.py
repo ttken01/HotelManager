@@ -13,8 +13,18 @@ def home():
         amount = request.form.get('amount')
         from_date = request.form.get('startdate')
         to_date = request.form.get('enddate')
-
-        rooms = utils.load_room(kind=kind, amount=int(amount), from_date =from_date, to_date=to_date)
+        if kind == '':
+            if amount == '':
+                rooms = utils.load_room(from_date=from_date, to_date=to_date)
+            else:
+                rooms = utils.load_room(amount=amount , from_date=from_date, to_date=to_date)
+        if amount == '':
+            if kind == '':
+                rooms = utils.load_room(from_date=from_date, to_date=to_date)
+            else:
+                rooms = utils.load_room( kind=kind ,from_date=from_date, to_date=to_date)
+        else:
+            rooms = utils.load_room(kind=kind, amount=amount, from_date=from_date, to_date=to_date)
         return render_template('index.html', rooms=rooms)
 
     else: return render_template('index.html')
