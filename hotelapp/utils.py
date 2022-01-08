@@ -109,3 +109,14 @@ def room_stats_used():
         .group_by(Room.name)
 
     return p.all()
+
+
+def sum_rooms_stats():
+    p = db.session.query(func.count(ReceiptDetail.id)) \
+        .join(Receipt, Receipt.id.__eq__(ReceiptDetail.receipt_id))
+
+    d=0
+    for s in p:
+        d = s[0]
+
+    return d

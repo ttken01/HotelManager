@@ -33,9 +33,11 @@
                 <input type="text" class="form-control" name="kw" placeholder="Nhap tu khoa...">
             </div>
             <div class="form-group">
+                <div><lable>Từ ngày</lable></div>
                 <input type="date" name="from_date" class="form-control">
             </div>
             <div class="form-group">
+                <div><lable>Tới ngày</lable></div>
                 <input type="date" name="to_date" class="form-control">
             </div>
             <input type="submit" value="Thống kê" width="30px" height="20px" class="btn btn-info">
@@ -54,14 +56,19 @@
             <tr>
                 <th>Tên phòng</th>
                 <th>Số lần được thuê</th>
-
+                <th>Tỉ lệ</th>
             </tr>
             {% for d in statsUsed %}
             <tr>
                 <th>{{ d[0] }}</th>
                 <th>{{ d[1] }}</th>
+                <th>{{ "{:,.1f}".format(d[1]*100/sumUsed) }}</th>
             </tr>
             {% endfor %}
+            <tr>
+                <th>Tổng số lần</th>
+                <th>{{ sumUsed }}</th>
+            </tr>
         </table>
     </div>
     <div class="col-md-6">
@@ -141,7 +148,7 @@
                 data: {
                     labels: lables,
                     datasets: [{
-                        label: 'Thống kê doanh thu',
+                        label: 'Thống kế tỉ lệ sử dụng phòng',
                         data: counter,
                         backgroundColor: colors,
                         borderColor: borderColors,
