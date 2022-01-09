@@ -64,6 +64,14 @@ h4 {
   font-weight: 600;
 }
 
+.cart-btn {
+  background-color: #CDA45E;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 1rem;
+}
+
 @media only screen and (max-width: 70em) {
   html {
     font-size: 85%;

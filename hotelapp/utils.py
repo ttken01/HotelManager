@@ -7,6 +7,8 @@ import hashlib
 def load_kind():
     return Kind.query.all()
 
+
+
 #lấy dữ liệu phòng
 def load_room(kind = None, amount = None, from_date = None, to_date = None):
 

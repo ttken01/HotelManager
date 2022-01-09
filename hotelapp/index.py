@@ -27,7 +27,7 @@ def home():
             rooms = utils.load_room(kind=kind, amount=amount, from_date=from_date, to_date=to_date)
         return render_template('index.html', rooms=rooms)
 
-    else: return render_template('index.html')
+    else: return render_template('index.html', rooms=utils.load_room())
 
 @app.route('/staff1', methods = ['post', 'get'])
 def staff1():

@@ -48,7 +48,7 @@
   </div>
 {% endblock %}
 {% block content %}
- <!-- ======= Menu Section ======= -->
+
  <section id="menu" class="menu section-bg">
   <div class="container" data-aos="fade-up">
 
@@ -61,130 +61,30 @@
       <div class="col-lg-12 d-flex justify-content-center">
         <ul id="menu-flters">
           <li data-filter="*" class="filter-active">All</li>
-          <li data-filter=".filter-starters">Standard</li>
-          <li data-filter=".filter-salads">Superior</li>
-          <li data-filter=".filter-specialty">Deluxe</li>
-          <li data-filter=".filter-suite">Suite</li>
+          {% for c in kind %}
+          <li data-filter=".filter-{{ c.id }}">{{c.name}}</li>
+          {% endfor %}
         </ul>
       </div>
     </div>
 
     <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
-
-      <div class="col-lg-6 menu-item filter-starters">
+      {% for p in rooms %}
+      <div class="col-lg-6 menu-item filter-{{p.kind_id}}">
         <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
         <div class="menu-content">
-          <a href="#">Lobster Bisque</a><span>$5.95</span>
+          <a href="#">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
         </div>
-        <div class="menu-ingredients">
-          Lorem, deren, trataro, filede, nerada
-        </div>
-      </div>
-
-      <div class="col-lg-6 menu-item filter-specialty">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
-
-        <div class="menu-content">
-          <a href="#">Bread Barrel</a><span>$6.95</span>
-        </div>
-        <div class="menu-ingredients">
-          Lorem, deren, trataro, filede, nerada
+        <div class="menu-ingredients mt-4">
+          <a href="#" class="cart-btn" onclick="addToCart({{ p.id }}, '{{ p.name }}', {{ p.price }})">Đặt phòng</a>
         </div>
       </div>
+      {% endfor %}
 
-      <div class="col-lg-6 menu-item filter-starters">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
 
-        <div class="menu-content">
-          <a href="#">Crab Cake</a><span>$7.95</span>
-        </div>
-        <div class="menu-ingredients">
-          A delicate crab cake served on a toasted roll with lettuce and tartar sauce
-        </div>
-      </div>
-
-      <div class="col-lg-6 menu-item filter-salads">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
-
-        <div class="menu-content">
-          <a href="#">Caesar Selections</a><span>$8.95</span>
-        </div>
-        <div class="menu-ingredients">
-          Lorem, deren, trataro, filede, nerada
-        </div>
-      </div>
-
-      <div class="col-lg-6 menu-item filter-specialty">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
-
-        <div class="menu-content">
-          <a href="#">Tuscan Grilled</a><span>$9.95</span>
-        </div>
-        <div class="menu-ingredients">
-          Grilled chicken with provolone, artichoke hearts, and roasted red pesto
-        </div>
-      </div>
-
-      <div class="col-lg-6 menu-item filter-starters">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
-
-        <div class="menu-content">
-          <a href="#">Mozzarella Stick</a><span>$4.95</span>
-        </div>
-        <div class="menu-ingredients">
-          Lorem, deren, trataro, filede, nerada
-        </div>
-      </div>
-
-      <div class="col-lg-6 menu-item filter-salads">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
-
-        <div class="menu-content">
-          <a href="#">Greek Salad</a><span>$9.95</span>
-        </div>
-        <div class="menu-ingredients">
-          Fresh spinach, crisp romaine, tomatoes, and Greek olives
-        </div>
-      </div>
-
-      <div class="col-lg-6 menu-item filter-salads">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
-
-        <div class="menu-content">
-          <a href="#">Spinach Salad</a><span>$9.95</span>
-        </div>
-        <div class="menu-ingredients">
-          Fresh spinach with mushrooms, hard boiled egg, and warm bacon vinaigrette
-        </div>
-      </div>
-
-      <div class="col-lg-6 menu-item filter-specialty">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
-
-        <div class="menu-content">
-          <a href="#">Lobster Roll</a><span>$12.95</span>
-        </div>
-        <div class="menu-ingredients">
-          Plump lobster meat, mayo and crisp lettuce on a toasted bulky roll
-        </div>
-      </div>
 
     </div>
 
   </div>
-</section><!-- End Menu Section -->
-<div class=" row list-room ">
-  {% for p in rooms %}
-  <div class="col-md-3 col-xs-12" style="padding: 5px">
-      <div class="card" style="padding: 5px">
-        <img class="card-img-top" src="{{url_for('static', filename = 'images/defaultRoom.png')}}" alt={{ p.name }}>
-        <div class="card-body">
-          <h4 class="card-title">{{ p.name }}</h4>
-          <p class="card-text">{{ "{:,.1f}".format(p.price) }} VND</p>
-          <a href="#" class="btn btn-primary" onclick="addToCart({{ p.id }}, '{{ p.name }}', {{ p.price }})">Dat hang</a>
-        </div>
-      </div>
-  </div>
-  {% endfor %}
-</div>
+</section>
 {% endblock %}
