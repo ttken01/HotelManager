@@ -30,6 +30,7 @@ class User(BaseModel, UserMixin):
     joined_date = Column(DateTime, default= datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.USER)
     receipts = relationship('Receipt', backref='user', lazy=True)
+    comments = relationship('Comment', backref='user', lazy =True)
 
     def __str__(self):
         return self.name
@@ -56,9 +57,22 @@ class Room(BaseModel):
     amount = Column(Integer, default = 1)
     kind_id = Column(Integer, ForeignKey(Kind.id), nullable=False)
     receipt_details = relationship('ReceiptDetail', backref='room', lazy=True)
+    comments = relationship('Comment', backref='room', lazy=True)
 
     def __str__(self):
         return self.name
+
+
+class Comment(BaseModel):
+    content = Column(String(255), nullable=False)
+    room_id = Column(Integer, ForeignKey(Room.id), nullable=False)
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    created_date = Column(DateTime, default=datetime.now())
+
+    def __str__(self):
+        return self.content
+
+
 
 class Receipt(BaseModel):
     created_date = Column(DateTime, default = datetime.now())

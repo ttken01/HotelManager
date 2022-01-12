@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Trang Chu{% endblock %}
+{% block title %}RoomDetail{% endblock %}
 {% block content%}
 <br><br><br><br><br><br><br>
 <div class="container" style="background-color: #ffd7db; border-radius: 10px;">
@@ -21,27 +21,43 @@
         <br>
         <br>
         <hr>
-    {% if current_user.is %}
+    {% if current_user.is_authenticated %}
     <div class="row">
         <div class="form-group">
-            <textarea class="form-control" placeholder="nhap noi dung binh luan"></textarea>
-            <input type="button" class="btn btn-primary" value="Comment">
+            <textarea class="form-control" id="commentId" placeholder="nhap noi dung binh luan"></textarea>
+            <input type="button"
+                   onclick="addComment({{ room.id }})"
+                   class="btn btn-primary" value="Comment">
         </div>
     </div>
     {% else %}
-    <a href="{{ url_for('user_signin') }}">Đsăng nhập để bình luận</a>
+    <a href="{{ url_for('user_signin') }}">Đăng nhập để bình luận</a>
     {% endif %}
-    <div class="row comment">
-        <div class="col-md-1 col-xs-4">
-            <img src="{{ url_for('static', filename = 'images/defaultAvatar.png') }}"
-                 class="img-fluid rounded-circle" alt="demo">
+    <div id="commentArea">
+        {% for c in comments %}
+        <div class="row">
+            <div class="col-md-1 col-xs-4">
+                {% if c.user.avatar %}
+                <img src="{{ c.user.avatar }}" class="img-fluid rounded-circle" alt="avatar">
+                {% else %}
+                <img src="{{ url_for('static', filename = 'images/defaultAvatar.png') }}"
+                     class="img-fluid rounded-circle" alt="demo">
+                {% endif %}
+            </div>
+            <div class="col-md-11 col-xs-8">
+                <p>{{ c.content }}</p>
+                <p><em class="my-date">{{ c.created_date }}</em></p>
+            </div>
         </div>
-        <div class="col-md-11 col-xs-8">
-            <p>Phòng đẹp sạch sẽ thoáng mát, phục vụ tốt!!!</p>
-            <p><em>2021-12-07 12:12</em></p>
-        </div>
+        {% endfor %}
     </div>
 </div>
 
-
+<script>
+    window.onload = function(){
+        let d = document.getElementsByClassName('my-date')
+        for (let i = 0; i < d.length; i++)
+            d[i].innerText = moment(d[i].innerText).fromNow()
+    }
+</script>
 {% endblock %}

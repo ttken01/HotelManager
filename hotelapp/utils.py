@@ -1,5 +1,5 @@
 from hotelapp import app, db
-from hotelapp.models import Kind, Room, User, Receipt, ReceiptDetail
+from hotelapp.models import Kind, Room, User, Receipt, ReceiptDetail, Comment
 from sqlalchemy import func
 from flask_login import current_user
 from datetime import datetime
@@ -125,11 +125,11 @@ def room_stats(kw=None, from_date=None, to_date=None):
 
     #xuất ra doanh thu thông tin phòng từ ngày from_date
     if from_date:
-        p = p.filter(Receipt.start_date.__ge__(from_date))
+        p = p.filter(ReceiptDetail.check_in.__ge__(from_date))
 
     #xem doanh thu những phòng trước ngày to_date
     if to_date:
-        p = p.filter(Receipt.end_date.__le__(to_date))
+        p = p.filter(ReceiptDetail.check_out.__le__(to_date))
 
     return p.all()
 
@@ -144,7 +144,7 @@ def room_stats_used():
 
 
 def sum_rooms_stats():
-    p = db.session.query(func.count(ReceiptDetail.id)) \
+    p = db.session.query(func.count(ReceiptDetail.receipt_id)) \
         .join(Receipt, Receipt.id.__eq__(ReceiptDetail.receipt_id))
 
     d=0
@@ -152,3 +152,18 @@ def sum_rooms_stats():
         d = s[0]
 
     return d
+
+
+def add_comment(content, room_id):
+    c = Comment(content=content, room_id=room_id, user=current_user)
+
+    db.session.add(c)
+    db.session.commit()
+
+    return c
+
+def get_comments(page = 1):
+    page_size = app.config['COMMENT_SIZE']
+    start = (page - 1) * page_size
+
+    return Comment.query.order_by(-Comment.id).slice(start, start + page_size).all()

@@ -1,7 +1,7 @@
 from hotelapp import app, db, utils
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from hotelapp.models import Kind, Room, User, UserRole
+from hotelapp.models import Kind, Room, User, UserRole, Comment, Receipt, ReceiptDetail
 from flask_admin import BaseView, expose, AdminIndexView
 from flask_login import logout_user, current_user
 from flask import redirect, request
@@ -13,6 +13,19 @@ class AuthenticatedModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
 
+class CommentView(AuthenticatedModelView):
+    column_display_pk = True
+    can_view_details = True
+    can_export = True
+    column_searchable_list = ['content', 'user_id', 'room_id']
+    column_filters = ['room_id']
+    column_sortable_list = ['id', 'room_id']
+    column_labels = {
+        'content' : 'Bình luận',
+        'created_date' : 'Ngày tạo',
+        'user_id' : 'Khách hàng',
+        'room_id' : 'Phòng'
+    }
 
 
 class RoomView(AuthenticatedModelView):
@@ -86,6 +99,8 @@ class MyAdminIndexView(AdminIndexView):
 
 
 
+
+
 admin = Admin(app=app,
               name="Hotel Website Administration",
               template_mode="bootstrap4",
@@ -94,5 +109,6 @@ admin = Admin(app=app,
 admin.add_view(AuthenticatedModelView(Kind, db.session, name='Loại phòng'))
 admin.add_view(RoomView(Room, db.session, name='Phòng'))
 admin.add_view(UserView(User, db.session, name='Người dùng'))
+admin.add_view(CommentView(Comment, db.session, name='Bình luận' ))
 admin.add_view(StatsView(name='Thống kê báo cáo'))
 admin.add_view(LogoutView(name='Đăng xuất'))

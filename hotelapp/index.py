@@ -230,9 +230,33 @@ def pay():
 @app.route("/rooms/<int:room_id>")
 def room_detail(room_id):
     room = utils.get_room_by_id(room_id)
+    comments = utils.get_comments(request.args.get('page', 1))
 
-    return render_template('details.html', room=room)
+    return render_template('details.html',
+                           room=room,
+                           comments=comments)
 
+
+@app.route('/api/comments', methods=['post'])
+@login_required
+def add_comment():
+    data = request.json
+    content = data.get('content')
+    room_id = data.get('room_id')
+
+    try:
+        c = utils.add_comment(content=content, room_id=room_id)
+    except:
+        return {'status': 404, 'err_msg': 'Chuong trinh dang bi loi!!'}
+    return {'status': 201, 'comment': {
+        'id': c.id,
+        'content': c.content,
+        'created_date': c.created_date,
+        'user':{
+            'username': current_user.username,
+            'avatar' : current_user.avatar
+        }
+    }}
 
 
 if __name__ == '__main__':
