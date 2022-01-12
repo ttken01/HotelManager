@@ -21,13 +21,10 @@ def load_room(kind = None, amount = None, from_date = None, to_date = None):
         rooms = rooms.filter(Room.amount.__eq__(amount))
 
 
-
-
-
-
-
     return rooms.all()
 
+def get_room_by_id(room_id):
+    return Room.query.get(room_id)
 
 #lấy dữ liệu bill hóa đơn:
 def load_receipt():

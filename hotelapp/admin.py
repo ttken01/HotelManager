@@ -52,7 +52,7 @@ class LogoutView(AuthenticatedBaseView):
     @expose('/')
     def __index__(self):
         logout_user()
-        return redirect('/admin')
+        return redirect('/')
 
 
 #Trang mới: Thống kê báo cáo

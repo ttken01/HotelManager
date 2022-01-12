@@ -86,7 +86,7 @@ def user_signin():
         if user:
             login_user(user=user)
 
-            return redirect(url_for(request.args.get('next', 'index')))
+            return redirect(url_for(request.args.get('next', 'home')))
         else:
             err_msg = 'Username or password INCORRECT'
 
@@ -225,6 +225,14 @@ def pay():
         return jsonify({'code': 404})
 
     return jsonify({'code': 200})
+
+
+@app.route("/rooms/<int:room_id>")
+def room_detail(room_id):
+    room = utils.get_room_by_id(room_id)
+
+    return render_template('details.html', room=room)
+
 
 
 if __name__ == '__main__':

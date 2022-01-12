@@ -73,7 +73,7 @@
       <div class="col-lg-6 menu-item filter-{{p.kind_id}}">
         <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
         <div class="menu-content">
-          <a href="#">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
+          <a href="{{ url_for('room_detail', room_id=p.id) }}">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
         </div>
         <div class="menu-ingredients mt-4">
           <a href="#" class="cart-btn" onclick="addToCart({{ p.id }}, '{{ p.name }}', {{ p.price }})">Đặt phòng</a>

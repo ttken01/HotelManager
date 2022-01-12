@@ -1,0 +1,47 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Trang Chu{% endblock %}
+{% block content%}
+<br><br><br><br><br><br><br>
+<div class="container" style="background-color: #ffd7db; border-radius: 10px;">
+    <h1 class="text text-info">Phòng {{ room.name }}</h1>
+
+    <div class="row" >
+        <div class="col-md-5 col-xs-12">
+            <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" alt="{{ room.name }}">
+        </div>
+        <div class="col-md-7 col-xs-12">
+            <h2>{{ room.name }}</h2>
+            <p> {{ room.description }} </p>
+            <h2>Amount: {{ room.amount }}</h2>
+            <h4>{{ "{:,.1f}".format(room.price) }} VND</h4>
+        </div>
+        <br><br>
+    </div>
+        <br>
+        <br>
+        <hr>
+    {% if current_user.is %}
+    <div class="row">
+        <div class="form-group">
+            <textarea class="form-control" placeholder="nhap noi dung binh luan"></textarea>
+            <input type="button" class="btn btn-primary" value="Comment">
+        </div>
+    </div>
+    {% else %}
+    <a href="{{ url_for('user_signin') }}">Đsăng nhập để bình luận</a>
+    {% endif %}
+    <div class="row comment">
+        <div class="col-md-1 col-xs-4">
+            <img src="{{ url_for('static', filename = 'images/defaultAvatar.png') }}"
+                 class="img-fluid rounded-circle" alt="demo">
+        </div>
+        <div class="col-md-11 col-xs-8">
+            <p>Phòng đẹp sạch sẽ thoáng mát, phục vụ tốt!!!</p>
+            <p><em>2021-12-07 12:12</em></p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
