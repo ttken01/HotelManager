@@ -7,7 +7,7 @@ from flask_babelex import Babel
 
 app = Flask(__name__)
 app.secret_key = 'alfdsjkbgaksjfjksdgakldg21432543@#$@#'
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:230801@localhost/hotelapp?charset=utf8mb4"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:12345678@localhost/hotelapp?charset=utf8mb4"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config['PAGE_SIZE'] = 8
 

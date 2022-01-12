@@ -1,9 +1,11 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Float,  Enum, DateTime, Boolean, ForeignKey, DATETIME
+from sqlalchemy import Column, Integer, String, Float,  Enum, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from hotelapp import db
-from enum import Enum as UserEnum
+from datetime import datetime
 from flask_login import UserMixin
+from enum import Enum as UserEnum
+
 import hashlib
 
 class BaseModel(db.Model):
@@ -16,6 +18,8 @@ class UserRole(UserEnum):
     USER = 2
     STAFF = 3
 
+
+
 class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
     username = Column(String(50), nullable=False, unique=True)
@@ -25,6 +29,7 @@ class User(BaseModel, UserMixin):
     active = Column(Boolean, default=True)
     joined_date = Column(DateTime, default= datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.USER)
+    receipts = relationship('Receipt', backref='user', lazy=True)
 
     def __str__(self):
         return self.name
@@ -56,17 +61,27 @@ class Room(BaseModel):
         return self.name
 
 class Receipt(BaseModel):
-    start_date = Column(DateTime, default = datetime.now())
+    created_date = Column(DateTime, default = datetime.now())
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-    end_date = Column(DateTime, default = datetime.now())
-    details = relationship('ReceiptDetail', backref='receipt', lazy=False)
+    details = relationship('ReceiptDetail', backref='receipt', lazy=True)
+
+# class List(BaseModel):
+#     name = Column(String(100), nullable=False)
+#     kind_guest = Column(Enum(KindGuest), default=KindGuest.local_guest)
+#     cmnd = Column(String(30), nullable=False)
+#     address = Column(String(100))
+#     receipt_details = relationship('ReceiptDetail', backref='list', lazy=True)
 
 
-class ReceiptDetail(BaseModel):
-    receipt_id = Column(Integer, ForeignKey(Receipt.id), nullable=False)
-    room_id = Column(Integer, ForeignKey(Room.id), nullable=False)
+class ReceiptDetail(db.Model):
+    receipt_id = Column(Integer, ForeignKey(Receipt.id), nullable=False, primary_key=True)
+    room_id = Column(Integer, ForeignKey(Room.id), nullable=False, primary_key=True)
+    check_in = Column(DateTime, default= datetime.now())
+    check_out = Column(DateTime, default= datetime.now())
+    quantity = Column(Integer , default=0)
     paid = Column(Boolean, default=False)
     unit_price = Column(Float, default=0)
+
 
 
 if __name__ == '__main__':

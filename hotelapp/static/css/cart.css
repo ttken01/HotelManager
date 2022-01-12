@@ -1,0 +1,27 @@
+h1{
+    margin-top:200px;
+}
+th, td{
+    color: white;
+    font-size : 14px;
+
+}
+.btn-delete{
+    transform: translateY(-10%);
+    background: #e74c3c !important;
+}
+.btn-pay:hover{
+
+
+
+}
+.btn-pay{
+    background: #20c997 !important;
+    margin-left: 50% !important;
+    transform: translateX(-50%) !important;
+
+}
+i{
+    font-size:24px;
+    color:red;
+}

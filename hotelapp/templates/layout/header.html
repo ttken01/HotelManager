@@ -58,8 +58,8 @@
       </li>
       {% endif %}
         <li class="nav-item">
-          <a class="nav-link text-success" href="">
-              Gio hang <span class="badge badge-info">0</span>
+          <a class="nav-link text-danger font-weight-bold" href="{{ url_for('cart') }}">
+              Booked room <span class="badge badge-danger" id="cartCounter">{{ cart_stats.total_quantity }}</span>
           </a>
         </li>
       </ul>

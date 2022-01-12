@@ -1,7 +1,7 @@
 from hotelapp import app, db, login
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, jsonify
 import utils
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from hotelapp.admin import *
 import cloudinary.uploader
 
@@ -85,7 +85,8 @@ def user_signin():
         user = utils.check_login(username= username, password = password)
         if user:
             login_user(user=user)
-            return redirect(url_for('home'))
+
+            return redirect(url_for(request.args.get('next', 'index')))
         else:
             err_msg = 'Username or password INCORRECT'
 
@@ -102,7 +103,8 @@ def user_signout():
 def common_response():
     return {
         'kind': utils.load_kind(),
-        'userRole' : UserRole
+        'userRole' : UserRole,
+        'cart_stats': utils.cart_stats(session.get('cart'))
     }
 
 
@@ -126,18 +128,103 @@ def admin_login():
 
     return redirect('/admin')
 
+@app.route('/cart')
+def cart():
+    return render_template('cart.html',
+                           cart_stats=utils.cart_stats(session.get('cart')))
 
-#@app.route('/api/ađ-cart', method=['post'])
-#def add_to_cart():
-    #id = ''
-    #name = ''
-    #price = ''
 
-    #cart = session.get('cart')
-    #if cart:
-     #   cart = {}
+@app.route('/api/add-to-cart', methods=['post'])
+def add_to_cart():
+    data = request.json
+    id = str(data.get('id'))
+    name = data.get('name')
+    price = data.get('price')
+    check_in = data.get('check_in')
+    check_out = data.get('check_out')
 
-    #pass
+
+    cart = session.get('cart')
+
+    if not cart:
+        cart = {}
+
+    if id in cart:
+        cart[id]['quantity'] = cart[id]['quantity'] + 1
+    else:
+        cart[id] = {
+            'id': id,
+            'name': name,
+            'price': price,
+            'check_in': check_in,
+            'check_out': check_out,
+            'quantity': 1
+        }
+
+    session['cart'] = cart
+
+    return jsonify(utils.cart_stats(session.get('cart')))
+
+@app.route('/api/update-cart', methods=['put'])
+def update_cart():
+    id = str(request.json.get('id'))
+    quantity = request.json.get('quantity')
+
+    cart = session.get('cart')
+    err_msg = ''
+    if cart:
+        if id in cart:
+            cart[id]['quantity'] = quantity
+            session['cart'] = cart
+
+            return jsonify({
+                'code': 200,
+                'data': utils.cart_stats(cart)
+            })
+        else:
+            err_msg = 'Khong co san pham tuong ung de cap nhat!'
+    else:
+        err_msg = 'Chua co gio hang!'
+
+    return jsonify({
+        'code': 404,
+        'err_msg': err_msg
+    })
+
+
+@app.route('/api/delete-cart/<product_id>', methods=['delete'])
+def delete_cart(product_id):
+    cart = session.get('cart')
+    err_msg = ''
+    if cart:
+        if product_id in cart:
+            del cart[product_id]
+            session['cart'] = cart
+
+            return jsonify({
+                'code': 200,
+                'data': utils.cart_stats(cart)
+            })
+        else:
+            err_msg = 'Khong co san pham tuong ung de cap nhat!'
+    else:
+        err_msg = 'Chua co gio hang!'
+
+    return jsonify({
+        'code': 404,
+        'err_msg': err_msg
+    })
+
+@app.route('/api/pay', methods=['post'])
+@login_required
+def pay():
+    try:
+        utils.add_receipt(session.get('cart'))
+        del session['cart']
+    except:
+        return jsonify({'code': 404})
+
+    return jsonify({'code': 200})
 
 
 if __name__ == '__main__':

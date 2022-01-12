@@ -1,6 +1,8 @@
 from hotelapp import app, db
 from hotelapp.models import Kind, Room, User, Receipt, ReceiptDetail
 from sqlalchemy import func
+from flask_login import current_user
+from datetime import datetime
 import hashlib
 
 #lấy dữ liệu loại phòng
@@ -57,12 +59,43 @@ def add_user(name, username, password, **kwargs):
     db.session.add(user)
     db.session.commit()
 
+#Them hang vao gio
+def cart_stats(cart):
+    total_quantity, total_amount = 0, 0
+    date_format = "%Y-%m-%d"
 
-#Thêm đơn đặt phòng
-def add_receipt():
-    pass
+    if cart:
+        for c in cart.values():
+            check_in= datetime.strptime(c['check_in'], date_format)
+            check_out= datetime.strptime(c['check_out'], date_format)
+            delta = abs(check_in - check_out)
+            c['days'] = delta.days + 1
+            total_quantity += c['quantity']
+            total_amount += c['quantity'] * c['price'] * c['days']
 
+    return {
+        'total_quantity': total_quantity,
+        'total_amount': total_amount
+    }
 
+#Thêm đơn đặt phòng vao csdl
+
+def add_receipt(cart):
+
+    if cart:
+        receipt = Receipt(user=current_user)
+        db.session.add(receipt)
+
+        for c in cart.values():
+            d = ReceiptDetail(receipt=receipt,
+                              room_id=c['id'],
+                              quantity=c['quantity'],
+                              check_in = c['check_in'],
+                              check_out = c['check_out'],
+                              unit_price=c['price']*c['days'])
+            db.session.add(d)
+
+        db.session.commit()
 #check account login có đúng không
 def check_login(username, password):
     if username and password:
