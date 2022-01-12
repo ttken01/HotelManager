@@ -86,7 +86,7 @@ def user_signin():
         if user:
             login_user(user=user)
 
-            return redirect(url_for(request.args.get('next', 'index')))
+            return redirect(url_for(request.args.get('next', 'home')))
         else:
             err_msg = 'Username or password INCORRECT'
 
