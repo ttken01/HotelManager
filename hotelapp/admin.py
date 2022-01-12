@@ -76,10 +76,14 @@ class StatsView(BaseView):
         kw = request.args.get('kw')
         from_date = request.args.get('from_date')
         to_date = request.args.get('to_date')
+        stats = utils.room_stats(kw=kw,
+                                 from_date=from_date,
+                                 to_date=to_date)
+        stats_sum = 0
+        for s in stats:
+            stats_sum += s[2]
 
-        return self.render('admin/stats.html', stats=utils.room_stats(kw=kw,
-                                                                      from_date=from_date,
-                                                                      to_date=to_date), statsUsed=utils.room_stats_used(),
+        return self.render('admin/stats.html', stats=stats, stats_sum=stats_sum , statsUsed=utils.room_stats_used(),
                                                                         sumUsed=utils.sum_rooms_stats())
 
     def is_accessible(self):

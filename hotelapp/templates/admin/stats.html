@@ -25,6 +25,11 @@
                 </th>
             </tr>
             {% endfor %}
+
+            <tr style="border-style: double;">
+                <th>Tổng doanh thu</th>
+                <th colspan="2">{{ "{:,.1f}".format(stats_sum) }} VND</th>
+            </tr>
         </table>
     </div>
     <div class="col-md-6">
@@ -65,9 +70,9 @@
                 <th>{{ "{:,.1f}".format(d[1]*100/sumUsed) }}</th>
             </tr>
             {% endfor %}
-            <tr>
+            <tr style="border-style: double;">
                 <th>Tổng số lần</th>
-                <th>{{ sumUsed }}</th>
+                <th colspan="2">{{ sumUsed }}</th>
             </tr>
         </table>
     </div>
