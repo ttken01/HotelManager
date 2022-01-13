@@ -1,5 +1,6 @@
 from hotelapp import app, db, login
 from flask import render_template, request, redirect, url_for, session, jsonify
+from hotelapp.utils import room_booking_cancel
 import utils
 from flask_login import login_user, logout_user, login_required
 from hotelapp.admin import *
@@ -59,9 +60,28 @@ def booking_list():
         except Exception as ex:
             err_msg = 'He thong dang co loi:' + str(ex)
     print(roomBooking)
-    print(roomBooking[0].List.cmnd)
     return render_template('bookinglist.html', roomBooking=roomBooking)
 
+
+
+@app.route('/api/booking/cancel-booking', methods=['delete'])
+def cancel_booking():
+    receipt_id = request.json.get('receipt_id')
+    err_msg = ''
+    if receipt_id:
+            utils.room_booking_cancel(receipt_id)
+            return jsonify({
+                'code': 200,
+                'data': utils.load_room_booking()
+            })
+   
+    else:
+        err_msg = 'Thông tin đặt phòng không tồn tại!'
+
+    return jsonify({
+        'code': 404,
+        'err_msg': err_msg
+    })
 
 @app.route('/register', methods = ['post', 'get'])
 def user_register():

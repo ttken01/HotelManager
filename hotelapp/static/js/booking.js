@@ -29,3 +29,25 @@ $("#delete_row").click(function () {
 function checkIn(){
     console.log("in check in");
 };
+
+
+
+
+function cancelBooking(receiptId) {
+  if (confirm('Hủy đặt phòng') == true) {
+      axios({
+        method: 'delete',
+        url: '/api/booking/cancel-booking',
+        data:{
+          receipt_id: receiptId
+        }
+      }).then(res => res.json()).then(data => {
+          if (data.code == 200) {
+               alert("success")
+              location.reload()
+
+          } else if (data.code == 404)
+              alert(data.err_msg)
+      }).catch(err => console.error(err))
+  }
+}

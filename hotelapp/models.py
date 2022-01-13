@@ -77,7 +77,7 @@ class Comment(BaseModel):
 class Receipt(BaseModel):
     created_date = Column(DateTime, default = datetime.now())
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-    details = relationship('ReceiptDetail', backref='receipt', lazy=True)
+    details = relationship('ReceiptDetail', backref='receipt', cascade='all, delete', lazy=True)
 
 
 class ReceiptDetail(db.Model):
@@ -104,7 +104,7 @@ class List(BaseModel):
     kind_guest = Column(Enum(KindGuest), default=KindGuest.LOCAL)
     cmnd = Column(String(30), nullable=False)
     address = Column(String(100))
-    receipt_details = relationship('ReceiptDetail', backref='list', lazy=True)
+    receipt_details = relationship('ReceiptDetail', backref='list' ,cascade='all, delete', lazy=True)
 
 
 
@@ -130,10 +130,18 @@ if __name__ == '__main__':
     # db.session.add(u2)
     # db.session.add(us1)
     # db.session.commit()
-    # r1 = Receipt(user_id=us1.id, details=[ReceiptDetail(room_id=1, check_in=datetime.now(), check_out=datetime.now(), quantity=1, paid=False, unit_price=0)])
+
+    # rooms = Room.query.all()
+    # r1 = Receipt(user_id=3, details=[
+    #     ReceiptDetail(room_id=rooms[1].id, check_in=datetime.now(), check_out=datetime.now(), quantity=1, paid=False,
+    #                   unit_price=0)])
+    # r2 = Receipt(user_id=3, details=[
+    #     ReceiptDetail(room_id=rooms[3].id, check_in=datetime.now(), check_out=datetime.now(), quantity=1, paid=False,
+    #                   unit_price=0)])
     # db.session.add(r1)
+    # db.session.add(r2)
     # db.session.commit()
-    l1 = List(receipt_id=1, name="us1", kind_guest=KindGuest.FOREIGN, cmnd='123456789', address='123')
-    db.session.add(l1)
-    db.session.commit()
+    # l1 = List(receipt_id=r1.id, name="us1", kind_guest=KindGuest.FOREIGN, cmnd='123456789', address='123')
+    # db.session.add(l1)
+    # db.session.commit()
     db.create_all()

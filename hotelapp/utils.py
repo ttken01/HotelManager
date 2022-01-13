@@ -172,29 +172,33 @@ def get_comments(page = 1):
 #lấy dữ liệu phòng đẫ được đặt
 def load_room_booking():
     q = db.session.query(
-        User.name.label("username"),
-        Room,
         Receipt,
-        ReceiptDetail,
-        List
-    ).filter(ReceiptDetail.room_id ==Room.id)\
-        .filter(Receipt.id==ReceiptDetail.receipt_id)\
-        .filter( Receipt.user_id==User.id)
+        User,
+        Room,
+        ReceiptDetail
+    ).join(ReceiptDetail, Receipt.id==ReceiptDetail.receipt_id)\
+     .join(Room, ReceiptDetail.room_id ==Room.id)\
+    .join(User, Receipt.user_id==User.id)
     return q.all()
 
 
 
 #staff hủy phòng đẫ được đặt
-
-#SELECT * FROM hotelapp.room as r, hotelapp.receipt as rc, hotelapp.receipt_detail as rcd where rc.id=1 && rc.id= rcd.receipt_id && rcd.room_id=r.id;
 def room_booking_cancel(receipt_id):
-    receipt = Receipt.query.filter(Receipt.id.__eq__(receipt_id)).first()
+    #delete list, receipt details and receipt
+    List.query.filter(receipt_id == receipt_id).delete()
+    ReceiptDetail.query.filter( ReceiptDetail.receipt_id == receipt_id).delete()
+    Receipt.query.filter(Receipt.id == receipt_id).delete()
+    db.session.commit()
+        
+    
 
-    p =  db.session.query(Room.name, func.count(Room.id))\
-    .join(ReceiptDetail, ReceiptDetail.room_id.__eq__(Room.id), isouter = True) \
-    .join(Receipt, Receipt.id.__eq__(ReceiptDetail.receipt_id))\
-    .group_by(Room.name)
 
 
-    db.session.delete(receipt)
+def addRecept():
+    rooms = Room.query.all()
+    r1 = Receipt(user_id=3, details=[ReceiptDetail(room_id=rooms[1].id, check_in=datetime.now(), check_out=datetime.now(), quantity=1, paid=False, unit_price=0)])
+    r2 = Receipt(user_id=3, details=[ReceiptDetail(room_id=rooms[3].id, check_in=datetime.now(), check_out=datetime.now(), quantity=1, paid=False, unit_price=0)])
+    db.session.add(r1)
+    db.session.add(r2)
     db.session.commit()

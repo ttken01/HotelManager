@@ -78,14 +78,16 @@
          
         </div>
         <div>
-          <p>Người đặt: {{p.username}}</p>
+          <p>Người đặt: {{p.User.name}}</p>
           <p>Ngày đặt: {{p.Receipt.created_date}}</p>
+          <p>Receipt id: {{p.Receipt.id}}</p>
+
         </div>
         <div class="menu-ingredients mt-4">
           <a href="#" class="cart-btn" data-toggle="modal" data-target="#checkInModal" onclick="checkIn({{ p.Room.id }}, '{{ p.Room.name }}', {{ p.Room.price }})">Check in</a>
         </div>
         <div class="menu-ingredients mt-4">
-          <a href="#" class="cart-btn" onclick="addToCart({{ p.Room.id }}, '{{ p.Room.name }}', {{ p.Room.price }})">Hủy đặt phòng</a>
+          <a href="#" class="cart-btn" onclick="cancelBooking({{p.Receipt.id}})">Hủy đặt phòng</a>
         </div>
       </div>
       {% endfor %}
