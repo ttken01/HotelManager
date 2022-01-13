@@ -31,6 +31,10 @@ function checkIn(){
 };
 
 
+function payment(receiptId){
+  console.log("in payment");
+};
+
 
 
 function cancelBooking(receiptId) {
