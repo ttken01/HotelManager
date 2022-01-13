@@ -40,14 +40,28 @@
             <div class="row align-items-center">
                   <label for="amount" class=" font-weight-bold col-md-2">Amount</label>
                   <input type="number" class="arrival col-md-6" min="1" max="7" id="amount" name="amount">
+                <a class="text text-info" onclick="addList()">IMPORT AMOUNT</a>
             </div>
+            <div class="row align-items-center">
+                <table id="addListArea">
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>CMND</th>
+                    </tr>
+                </table>
+            </div>
+
                       <div class="col-md-3"></div>
                       <input type="submit" class="btn  btn-submit" value="BOOKING">
           </form>
       </div>
  <!-- ======= Menu Section ======= -->
-<br><br><br><br><br>
+<div id="brAddId">
+    <br><br><br><br><br>
 <br><br><br><br><br><br>
+</div>
+
  <section id="menu" class="menu section-bg">
   <div class="container" data-aos="fade-up">
 

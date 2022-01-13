@@ -119,3 +119,21 @@ function addComment(roomId){
         })
     }
 }
+
+
+function addList(){
+    var a = document.getElementById('amount').value
+    let area = document.getElementById('addListArea')
+    let brAdd = document.getElementById('brAddId')
+    for(i=1; i<=a; i++){
+        area.innerHTML = area.innerHTML + `
+            <tr>
+                <th><input type="text" class="arrival " id="name${i}" name="name${i}"></th>
+                <th><input type="text" class="arrival " id="address${i}" name="address${i}"></th>
+                <th><input type="text" class="arrival " id="cmnd${i}" name="cmnd${i}"></th>
+            </tr>
+        `
+        brAdd.innerHTML = brAdd.innerHTML + `<br><br><br>`
+    }
+
+}
