@@ -44,7 +44,7 @@
         </li>
         {% if current_user.user_role == userRole.STAFF %}
           <li><a class="nav-link scrollto" href="/staff1">BOOKING</a></li>
-          <li><a class="nav-link scrollto" href="#">BOOKING LIST</a></li>
+          <li><a class="nav-link scrollto" href="{{url_for('booking_list')}}">BOOKING LIST</a></li>
         {% endif %}
         <li class="nav-item">
           <a class="nav-link" href="{{url_for('user_signout')}}">Log out</a>
@@ -57,11 +57,13 @@
         <a class="nav-link  " href="{{url_for('user_signin')}}">Login</a>
       </li>
       {% endif %}
+      {% if current_user.user_role == userRole.USER %}
         <li class="nav-item">
           <a class="nav-link text-danger font-weight-bold" href="{{ url_for('cart') }}">
               Booked room <span class="badge badge-danger" id="cartCounter">{{ cart_stats.total_quantity }}</span>
           </a>
         </li>
+        {% endif %}
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav><!-- .navbar -->

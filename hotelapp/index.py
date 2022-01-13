@@ -46,6 +46,22 @@ def staff1():
 
     return render_template('staff1.html', rooms=rooms)
 
+@app.route('/booking-list', methods = ['post', 'get'])
+def booking_list():
+    roomBooking = utils.load_room_booking()
+    err_msg = ""
+    if request.method.__eq__('POST'):
+        username = request.form.get('username')
+        roomid = request.form.get('roomid')
+        user = utils.get_user_by_username(user_name=username.strip())
+        try:
+                return redirect(url_for('booking-list'))
+        except Exception as ex:
+            err_msg = 'He thong dang co loi:' + str(ex)
+    print(roomBooking)
+    print(roomBooking[0].List.cmnd)
+    return render_template('bookinglist.html', roomBooking=roomBooking)
+
 
 @app.route('/register', methods = ['post', 'get'])
 def user_register():

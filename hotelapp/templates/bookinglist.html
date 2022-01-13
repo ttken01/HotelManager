@@ -1,0 +1,98 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Phòng đã đặt{% endblock %}
+{% block background %}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdGVsfGVufDB8fDB8fA%3D%3D&w=1000&q=80 "  alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="https://i.pinimg.com/originals/24/71/dc/2471dc26a5996f7102394061d105bf75.jpg" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="https://wallpaperaccess.com/full/2690549.jpg" alt="Third slide">
+    </div>
+  </div>
+    <div class="container">
+          <form class="form-search" action="{{ url_for('home') }}" method="post">
+                 <div class="row align-items-center">
+                <lable for="kind" class="col-md-2 font-weight-bold">Kind</lable>
+                <select name="kind" class="form-control col-md-2" id="kind">
+                    <option></option>
+                    {% for c in kind %}
+                        <option class="lt" value="{{ c.id }}">{{c.name}}</option>
+                    {% endfor %}
+                </select>
+                <lable for="amount" class="font-weight-bold col-md-2">Số người</lable>
+                <select class="form-control col-md-2" name="amount" id="amount">
+                        <option></option>
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                </select>
+                </div>
+                <div class="row align-items-center">
+                    <label for="startdate" class=" font-weight-bold col-md-2">Check in</label>
+                    <input type="date" class="arrival col-md-6" id="startdate" name="startdate">
+                </div>
+                <div class="row align-items-center">
+                    <label for="enddate" class="font-weight-bold col-md-2">Check out</label>
+                    <input type="date" class="arrival col-md-6" id="enddate" name="enddate">
+                </div>
+
+                        <div class="col-md-3"></div>
+                        <input type="submit" class="btn  btn-submit" value="Search">
+          </form>
+    </div>
+  </div>
+{% endblock %}
+{% block content %}
+
+ <section id="menu" class="menu section-bg">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Rooms Booking</h2>
+ 
+    </div>
+
+    <div class="row" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <ul id="menu-flters">
+          <li data-filter="*" class="filter-active">All</li>
+          {% for c in kind %}
+          <li data-filter=".filter-{{ c.id }}">{{c.name}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+      {% for p in roomBooking %}
+      <div class="col-lg-6 menu-item filter-{{p.Room.kind_id}}">
+        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
+        <div class="menu-content">
+          <a href="#">{{ p.Room.name }}</a><span>{{ "{:,.1f}".format(p.Room.price) }} VND</span>
+         
+        </div>
+        <div>
+          <p>Người đặt: {{p.username}}</p>
+          <p>Ngày đặt: {{p.Receipt.created_date}}</p>
+        </div>
+        <div class="menu-ingredients mt-4">
+          <a href="#" class="cart-btn" onclick="addToCart({{ p.Room.id }}, '{{ p.Room.name }}', {{ p.Room.price }})">Check in</a>
+        </div>
+        <div class="menu-ingredients mt-4">
+          <a href="#" class="cart-btn" onclick="addToCart({{ p.Room.id }}, '{{ p.Room.name }}', {{ p.Room.price }})">Hủy đặt phòng</a>
+        </div>
+      </div>
+      {% endfor %}
+
+
+
+    </div>
+
+  </div>
+</section>
+{% endblock %}

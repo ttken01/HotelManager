@@ -79,13 +79,6 @@ class Receipt(BaseModel):
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
     details = relationship('ReceiptDetail', backref='receipt', lazy=True)
 
-# class List(BaseModel):
-#     name = Column(String(100), nullable=False)
-#     kind_guest = Column(Enum(KindGuest), default=KindGuest.local_guest)
-#     cmnd = Column(String(30), nullable=False)
-#     address = Column(String(100))
-#     receipt_details = relationship('ReceiptDetail', backref='list', lazy=True)
-
 
 class ReceiptDetail(db.Model):
     receipt_id = Column(Integer, ForeignKey(Receipt.id), nullable=False, primary_key=True)
@@ -95,6 +88,24 @@ class ReceiptDetail(db.Model):
     quantity = Column(Integer , default=0)
     paid = Column(Boolean, default=False)
     unit_price = Column(Float, default=0)
+
+
+
+class KindGuest(UserEnum):
+    LOCAL = 1
+    FOREIGN = 2
+
+
+
+
+class List(BaseModel):
+    receipt_id = Column(Integer, ForeignKey(ReceiptDetail.receipt_id), nullable=False, primary_key=True)
+    name = Column(String(100), nullable=False)
+    kind_guest = Column(Enum(KindGuest), default=KindGuest.LOCAL)
+    cmnd = Column(String(30), nullable=False)
+    address = Column(String(100))
+    receipt_details = relationship('ReceiptDetail', backref='list', lazy=True)
+
 
 
 
@@ -113,6 +124,16 @@ if __name__ == '__main__':
     # password='123';
     # password=str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     # u1 = User(name='administrator', username= 'admin', password=password, user_role=UserRole.ADMIN )
+    # u2 = User(name='staff', username= 'staff', password=password, user_role=UserRole.STAFF )
+    # us1 = User(name='us1', username= 'us1', password=password, user_role=UserRole.USER )
     # db.session.add(u1)
+    # db.session.add(u2)
+    # db.session.add(us1)
     # db.session.commit()
+    # r1 = Receipt(user_id=us1.id, details=[ReceiptDetail(room_id=1, check_in=datetime.now(), check_out=datetime.now(), quantity=1, paid=False, unit_price=0)])
+    # db.session.add(r1)
+    # db.session.commit()
+    l1 = List(receipt_id=1, name="us1", kind_guest=KindGuest.FOREIGN, cmnd='123456789', address='123')
+    db.session.add(l1)
+    db.session.commit()
     db.create_all()
