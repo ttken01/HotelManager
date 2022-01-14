@@ -204,7 +204,7 @@ def load_room_booking():
         User,
         Room,
         ReceiptDetail
-    ).join(ReceiptDetail, Receipt.id==ReceiptDetail.receipt_id)\
+    ).join(ReceiptDetail, Receipt.id==ReceiptDetail.receipt_id).filter(ReceiptDetail.paid==False)\
      .join(Room, ReceiptDetail.room_id ==Room.id)\
     .join(User, Receipt.user_id==User.id)
     return q.all()
@@ -245,6 +245,13 @@ def get_booking_total_price(receipt_id):
     delta=r.ReceiptDetail.check_out -r.ReceiptDetail.check_in + timedelta(days=1)
  
     return delta.days * (c/r.Room.amount)*r.Room.price
+
+
+#chuyen phong sang trang thai da tra tien
+def get_booking_total_price(receipt_id):
+    ReceiptDetail.query.filter(ReceiptDetail.receipt_id == receipt_id).update({'paid':True})
+
+
 
 
 

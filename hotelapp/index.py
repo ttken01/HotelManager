@@ -96,20 +96,12 @@ def booking_payment():
                     'data': utils.load_room_booking()
                 })
             else:
-                err_msg = 'Lỗi!'
                 return jsonify({
-                    'code': 404,
-                    'err_msg': err_msg
+                'code': 200,
+                'price': utils.get_booking_total_price(receipt_id)
                 })
 
-
-        #get
-        else:
-            return jsonify({
-                'code': 200,
-                'data': utils.get_receipt_detail_by_receiptId(receipt_id)
-            })
-
+     
 
     else:
         err_msg = 'Không nhận được receipt_id trên server!'

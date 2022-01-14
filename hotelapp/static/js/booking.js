@@ -33,19 +33,41 @@ function checkIn(){
 
 function payment(receiptId){
       axios({
-        method: 'get',
+        method: 'post',
         url: '/api/booking/payment',
         data:{
           receipt_id: receiptId
         }
-      }).then(res => res.json()).then(data => {
+      }).then((response)=>{
+           data=response.data;
           if (data.code == 200) {
-            console.log(data)
-              $('#total_price').val(data)
+              $('#total_price').val(data.price)
           } else if (data.code == 404)
               alert(data.err_msg)
+    
       }).catch(err => console.error(err))
 }
+
+
+
+
+function payment(receiptId){
+  axios({
+    method: 'post',
+    url: '/api/booking/payment',
+    data:{
+      receipt_id: receiptId
+    }
+  }).then((response)=>{
+       data=response.data;
+      if (data.code == 200) {
+          $('#total_price').val(data.price)
+      } else if (data.code == 404)
+          alert(data.err_msg)
+
+  }).catch(err => console.error(err))
+};
+
 
 
 
