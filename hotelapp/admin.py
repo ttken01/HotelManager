@@ -1,7 +1,7 @@
 from hotelapp import app, db, utils
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from hotelapp.models import Kind, Room, User, UserRole, Comment, Receipt, ReceiptDetail
+from hotelapp.models import Kind, Room, User, UserRole, Comment, Receipt, ReceiptDetail, List
 from flask_admin import BaseView, expose, AdminIndexView
 from flask_login import logout_user, current_user
 from flask import redirect, request
@@ -12,6 +12,29 @@ from flask import redirect, request
 class AuthenticatedModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == UserRole.ADMIN
+
+class ReceiptView(AuthenticatedModelView):
+    column_display_pk = True
+    can_view_details = True
+    can_export = True
+    can_create = False
+    can_edit = False
+    column_labels = {
+        'user' : 'Khách hàng',
+        'content' : 'Bình luận',
+        'created_date' : 'Ngày tạo',
+        'check_in' : 'Ngày nhận phòng',
+        'check_out' : 'Ngày trả phòng',
+        'paid' : 'Thanh toán',
+        'unit_price': 'Tổng hóa đơn',
+        'room_id': 'Phòng',
+        'receipt_id': 'Hóa đơn',
+        'name': 'Tên thành viên',
+        'kind_guest': 'Loại khách hàng',
+        'cmnd': 'Chứng minh nhân dân',
+        'address': 'Địa chỉ'
+    }
+
 
 class CommentView(AuthenticatedModelView):
     column_display_pk = True
@@ -110,9 +133,12 @@ admin = Admin(app=app,
               template_mode="bootstrap4",
               index_view=MyAdminIndexView())
 
-admin.add_view(AuthenticatedModelView(Kind, db.session, name='Loại phòng'))
+admin.add_view(AuthenticatedModelView(Kind, db.session, name='Loại Phòng'))
 admin.add_view(RoomView(Room, db.session, name='Phòng'))
 admin.add_view(UserView(User, db.session, name='Người dùng'))
 admin.add_view(CommentView(Comment, db.session, name='Bình luận' ))
-admin.add_view(StatsView(name='Thống kê báo cáo'))
+admin.add_view(ReceiptView(Receipt, db.session, name='Hóa đơn'))
+admin.add_view(ReceiptView(ReceiptDetail, db.session, name='Chi tiết HĐ'))
+admin.add_view(ReceiptView(List, db.session, name='Room Members'))
+admin.add_view(StatsView(name='Thống kê'))
 admin.add_view(LogoutView(name='Đăng xuất'))

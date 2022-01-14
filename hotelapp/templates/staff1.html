@@ -21,6 +21,9 @@
 
   <div class="container">
           <form class="form-search" action="{{ url_for('staff1') }}" method="post">
+            <div>
+                <i class="text text-danger"><span>{{err_msg}}</span></i>
+            </div>
             <div class="row align-items-center">
                   <label for="username" class=" font-weight-bold col-md-2">Username Cus</label>
                   <input type="text" class="arrival col-md-6" id="username" name="username">

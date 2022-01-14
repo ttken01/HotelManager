@@ -56,6 +56,34 @@ def add_user(name, username, password, **kwargs):
     db.session.add(user)
     db.session.commit()
 
+
+def add_receipt_detail_list(user_id, room_id, check_in, check_out, amount, arr = [[]]):
+
+    receipt = Receipt(user=current_user)
+    db.session.add(receipt)
+
+    room = get_room_by_id(room_id)
+    unit_price = room.price *(check_out - check_in + 1)
+
+    receipt_detail = ReceiptDetail(receipt=receipt,
+                                   room_id=room_id,
+                                   check_in=check_in,
+                                   check_out=check_out,
+                                   unit_price=unit_price)
+
+    db.session.add(receipt_detail)
+
+    for i in range(0, amount):
+        db.session.add(List(receipt_id=receipt_detail.receipt_id,
+                            name=arr[i][0],
+                            cmnd=arr[i][1],
+                            address=arr[i][2]))
+
+    db.session.commit();
+
+
+
+
 #Them hang vao gio
 def cart_stats(cart):
     total_quantity, total_amount = 0, 0
@@ -191,7 +219,12 @@ def room_booking_cancel(receipt_id):
     Receipt.query.filter(Receipt.id == receipt_id).delete()
     db.session.commit()
         
-    
+
+#Tổng tiền phải trả:
+def get_receipt_detail_by_receiptId(receiptId):
+    c = ReceiptDetail.query.get(receiptId)
+    return c.unit_price
+
 
 #lay tong tien phai tra
 def get_booking_total_price(receipt_id):

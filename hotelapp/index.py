@@ -1,3 +1,7 @@
+import string
+
+from sqlalchemy.sql.elements import Null
+
 from hotelapp import app, db, login
 from flask import render_template, request, redirect, url_for, session, jsonify
 from hotelapp.utils import room_booking_cancel
@@ -39,13 +43,29 @@ def staff1():
         roomid = request.form.get('roomid')
         from_date = request.form.get('startdate')
         to_date = request.form.get('enddate')
+        amount = request.form.get('amount')
+        arr = [[]]
+
+        if amount:
+            for i in range(0, int(amount)):
+                arr[i].append(request.form.get('name1'))
+                arr[i].append(request.form.get('cmnd1'))
+                arr[i].append(request.form.get('address1'))
+
         user = utils.get_user_by_username(user_name=username.strip())
+        utils.add_receipt_detail_list(user_id=user.id,
+                                      room_id=roomid.strip(),
+                                      check_in=from_date,
+                                      check_out=to_date,
+                                      amount=int(amount),
+                                      arr = arr)
+
         try:
                 return redirect(url_for('staff1'))
         except Exception as ex:
             err_msg = 'He thong dang co loi:' + str(ex)
 
-    return render_template('staff1.html', rooms=rooms)
+    return render_template('staff1.html', rooms=rooms, err_msg=err_msg)
 
 @app.route('/booking-list', methods = ['post', 'get'])
 def booking_list():
@@ -81,13 +101,13 @@ def booking_payment():
                     'code': 404,
                     'err_msg': err_msg
                 })
-    
-  
+
+
         #get
         else:
             return jsonify({
                 'code': 200,
-                'data': utils.get_booking_total_price(receipt_id)
+                'data': utils.get_receipt_detail_by_receiptId(receipt_id)
             })
 
 

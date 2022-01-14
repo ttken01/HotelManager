@@ -45,7 +45,7 @@ function payment(receiptId){
           } else if (data.code == 404)
               alert(data.err_msg)
       }).catch(err => console.error(err))
-};
+}
 
 
 
