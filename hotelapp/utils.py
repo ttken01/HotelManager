@@ -2,7 +2,7 @@ from hotelapp import app, db
 from hotelapp.models import Kind, Room, User, Receipt, ReceiptDetail, Comment, List
 from sqlalchemy import func
 from flask_login import current_user
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 
 #lấy dữ liệu loại phòng
@@ -192,6 +192,26 @@ def room_booking_cancel(receipt_id):
     db.session.commit()
         
     
+
+#lay tong tien phai tra
+def get_booking_total_price(receipt_id):
+    #(out-in+1)*(amountDetail/AmountRoom)*price
+    c=db.session.query(func.count(List.id)).filter(receipt_id == receipt_id).first()[0]
+   
+    r = db.session.query(
+    Receipt,
+    User,
+    Room,
+    ReceiptDetail
+    ).join(ReceiptDetail, Receipt.id==ReceiptDetail.receipt_id)\
+     .join(Room, ReceiptDetail.room_id ==Room.id)\
+    .join(User, Receipt.user_id==User.id)\
+    .filter(Receipt.id == receipt_id).first()
+    
+    #so ngay
+    delta=r.ReceiptDetail.check_out -r.ReceiptDetail.check_in + timedelta(days=1)
+ 
+    return delta.days * (c/r.Room.amount)*r.Room.price
 
 
 

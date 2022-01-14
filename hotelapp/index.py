@@ -49,6 +49,7 @@ def staff1():
 
 @app.route('/booking-list', methods = ['post', 'get'])
 def booking_list():
+    
     roomBooking = utils.load_room_booking()
     err_msg = ""
     if request.method.__eq__('POST'):
@@ -59,10 +60,44 @@ def booking_list():
                 return redirect(url_for('booking-list'))
         except Exception as ex:
             err_msg = 'He thong dang co loi:' + str(ex)
-    print(roomBooking)
+
     return render_template('bookinglist.html', roomBooking=roomBooking)
 
+@app.route('/api/booking/payment', methods=['get', 'post'])
+def booking_payment():
+    err_msg = ''
+    receipt_id = request.json.get('receipt_id')
+    if receipt_id:
+        if request.method.__eq__('POST'):
+            amount = request.json.get('amount')
+            if amount:
+                return jsonify({
+                    'code': 200,
+                    'data': utils.load_room_booking()
+                })
+            else:
+                err_msg = 'Lỗi!'
+                return jsonify({
+                    'code': 404,
+                    'err_msg': err_msg
+                })
+    
+  
+        #get
+        else:
+            return jsonify({
+                'code': 200,
+                'data': utils.get_booking_total_price(receipt_id)
+            })
 
+
+    else:
+        err_msg = 'Không nhận được receipt_id trên server!'
+        return jsonify({
+            'code': 404,
+            'err_msg': err_msg
+        })
+    
 
 @app.route('/api/booking/cancel-booking', methods=['delete'])
 def cancel_booking():

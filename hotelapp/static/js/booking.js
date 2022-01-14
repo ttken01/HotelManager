@@ -32,7 +32,19 @@ function checkIn(){
 
 
 function payment(receiptId){
-  console.log("in payment");
+      axios({
+        method: 'get',
+        url: '/api/booking/payment',
+        data:{
+          receipt_id: receiptId
+        }
+      }).then(res => res.json()).then(data => {
+          if (data.code == 200) {
+            console.log(data)
+              $('#total_price').val(data)
+          } else if (data.code == 404)
+              alert(data.err_msg)
+      }).catch(err => console.error(err))
 };
 
 
