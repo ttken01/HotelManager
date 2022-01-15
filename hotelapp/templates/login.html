@@ -1,12 +1,12 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Dang nhap nguoi dung{% endblock %}
+{% block title %}Đăng nhập{% endblock %}
 
 {% block content%}
-    <h1 class="text-center text-danger">ĐĂNG NHẬP</h1>
+    <h1 class="text-center text-info">ĐĂNG NHẬP</h1>
 
 
-    <div class="wrapper fadeInDown">
+    <div class="wrapper fadeInDown login-form">
       <div id="formContent">
         <!-- Tabs Titles -->
 
@@ -17,14 +17,15 @@
 
         <!-- Login Form -->
         <form method="post" >
-          <input type="text" id="username" class="fadeIn second" name="username" placeholder="username">
-          <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
-          <input type="submit" class="fadeIn fourth" value="Log In">
+          <input type="text" id="username" class="fadeIn second" name="username" placeholder="Tên đăng nhập">
+          <input type="password" id="password" class="fadeIn third" name="password" placeholder="Mật khẩu">
+          <input type="submit" class="fadeIn fourth" value="Đăng nhập">
         </form>
 
         <!-- Remind Passowrd -->
         <div id="formFooter">
-          <a class="underlineHover" href="#">Forgot Password?</a>
+          <a class="underlineHover" href="#">Quên mật khẩu?</a>
+          <a class="nav-link " href="{{ url_for('user_register') }}">Đăng kí</a>
         </div>
          {% if err_msg %}
         <div class="alert alert-danger">

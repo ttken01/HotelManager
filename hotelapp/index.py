@@ -5,7 +5,7 @@ from sqlalchemy.sql.elements import Null
 from datetime import datetime
 from hotelapp import app, db, login
 from flask import render_template, request, redirect, url_for, session, jsonify
-from hotelapp.utils import room_booking_cancel
+from hotelapp.utils import booking_pay_by_id, room_booking_cancel
 import utils
 from flask_login import login_user, logout_user, login_required
 from hotelapp.admin import *
@@ -95,11 +95,13 @@ def booking_payment():
     receipt_id = request.json.get('receipt_id')
     if receipt_id:
         if request.method.__eq__('POST'):
-            amount = request.json.get('amount')
-            if amount:
+            in_price = request.json.get('in_price')
+            total_price = request.json.get('total_price')
+            if in_price and total_price and total_price <= in_price:
+                booking_pay_by_id(receipt_id)
                 return jsonify({
                     'code': 200,
-                    'data': utils.load_room_booking()
+                    'msg': 'Thanh toán thành công'
                 })
             else:
                 return jsonify({

@@ -18,7 +18,7 @@
     <div class="container">
           <form class="form-search" action="{{ url_for('home') }}" method="post">
                  <div class="row align-items-center">
-                <lable for="kind" class="col-md-2 font-weight-bold">Kind</lable>
+                <lable for="kind" class="col-md-2 font-weight-bold">Loại</lable>
                 <select name="kind" class="form-control col-md-2" id="kind">
                     <option></option>
                     {% for c in kind %}
@@ -43,7 +43,7 @@
                 </div>
 
                         <div class="col-md-3"></div>
-                        <input type="submit" class="btn  btn-submit" value="Search">
+                        <input type="submit" class="btn  btn-submit" value="Tìm kiếm">
           </form>
     </div>
   </div>
@@ -51,17 +51,17 @@
 {% block content %}
 
  <section id="menu" class="menu section-bg">
-  <div class="container" data-aos="fade-up">
+  <div class="container booking-page" data-aos="fade-up">
 
     <div class="section-title">
-      <h2>Rooms Booking</h2>
+      <h2>Các phòng đã đặt</h2>
  
     </div>
 
     <div class="row" data-aos="fade-up" data-aos-delay="100">
       <div class="col-lg-12 d-flex justify-content-center">
         <ul id="menu-flters">
-          <li data-filter="*" class="filter-active">All</li>
+          <li data-filter="*" class="filter-active">Tất cả</li>
           {% for c in kind %}
           <li data-filter=".filter-{{ c.id }}">{{c.name}}</li>
           {% endfor %}
@@ -80,17 +80,19 @@
         <div>
           <p>Người đặt: {{p.User.name}}</p>
           <p>Ngày đặt: {{p.Receipt.created_date}}</p>
-          <p>Receipt id: {{p.Receipt.id}}</p>
+  
 
         </div>
-        <div class="menu-ingredients mt-4">
-          <a href="#" class="cart-btn" data-toggle="modal" data-target="#checkInModal" onclick="checkIn({{ p.Room.id }}, '{{ p.Room.name }}', {{ p.Room.price }})">Check in</a>
-        </div>
-        <div class="menu-ingredients mt-4">
-          <a href="#" class="cart-btn"  data-toggle="modal" data-target="#paymentModal" onclick="payment({{p.Receipt.id}})">Thanh toán</a>
-        </div>
-        <div class="menu-ingredients mt-4">
-          <a href="#" class="cart-btn" onclick="cancelBooking({{p.Receipt.id}})">Hủy đặt phòng</a>
+        <div class="booking-button-wrapper">
+          <div class="menu-ingredients mt-4">
+            <a href="#" class="cart-btn" data-toggle="modal" data-target="#checkInModal" onclick="checkIn({{ p.Room.id }}, '{{ p.Room.name }}', {{ p.Room.price }})">Check in</a>
+          </div>
+          <div class="menu-ingredients mt-4">
+            <a href="#" class="cart-btn"  data-toggle="modal" data-target="#paymentModal" onclick="payment({{p.Receipt.id}})">Thanh toán</a>
+          </div>
+          <div class="menu-ingredients mt-4">
+            <a href="#" class="cart-btn" onclick="cancelBooking({{p.Receipt.id}})">Hủy đặt phòng</a>
+          </div>
         </div>
       </div>
       {% endfor %}
@@ -117,17 +119,18 @@
       </div>
       <div class="modal-body">
         <form>
+          <input disabled type="text" class="form-control" id="formPaymentReceipId">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Tổng tiền:</label>
             <input disabled type="text" class="form-control" id="total_price">
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Tiền nhận:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input type="text" class="form-control" id="in_price">
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Tiền thối:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <label for="recipient-name" class="col-form-label">Tiền thối:</label>
+            <input type="text" class="form-control" id="out_price">
           </div>
         </form>
       </div>

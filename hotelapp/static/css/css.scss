@@ -1,10 +1,11 @@
 $primary-color: black;
 $sub-color: #007bff;
-$background-color: #1A1814;
+$background-color: #18191a;
 $body-font-size: 1rem;
 $body-font-weight: 400;
 $font-family: 'Inter', sans-serif;
 $yellow : #CDA45E;
+$color-text:#E4E6EB;
 
 *{
     box-sizing: border-box;
@@ -12,7 +13,7 @@ $yellow : #CDA45E;
 html{
     font-family: $font-family;
     background: $background-color;
-    color: $primary-color;
+    color: $color-text;
     font-size: 100%;
     font-weight: $body-font-weight;
     scroll-behavior: smooth;
@@ -82,21 +83,68 @@ h4{
 
 
 //------------------------------------------ --------------------------------
+.register_form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 3rem;
+    label{
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: $color-text;
+        width: 100%;
+    }
+    input{
+        width: 100% !important;
+        height: 3rem;
+        text-align: left !important;
+    }
+    input[type=submit]{
+        margin-left: 0rem !important;
+    }
+}
 
 
 
+.login-form{
+    #formContent{
+        background-color: #c7c6c6;
+
+    }
+    #formFooter{
+        background-color: #c7c6c6;
+
+    }
+}
 
 
+.room-info{
+    color: $color-text;
+
+}
 
 //--------------------------------------------------------------------------
 
+.booking-page{
+    color: $color-text;
+    .booking-button-wrapper{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        div{
+            margin-left: 0px !important;
+        }
+    }
+  
+}
 
-
-
+#paymentModal{
+    color: $color-text;
+    .modal-content{
+        background-color: #4b4e51 !important;
+    }
+}
 
 //--------------------------------------------------------------------------
-
-
 
 
 

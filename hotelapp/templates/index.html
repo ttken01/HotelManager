@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 
-{% block title %}Trang Chu{% endblock %}
+{% block title %}Trang Chủ{% endblock %}
 {% block background %}
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
@@ -17,7 +17,7 @@
     <div class="container">
           <form class="form-search" action="{{ url_for('home') }}" method="post">
                  <div class="row align-items-center">
-                <lable for="kind" class="col-md-2 font-weight-bold">Kind</lable>
+                <lable for="kind" class="col-md-2 font-weight-bold">Loại phòng</lable>
                 <select name="kind" class="form-control col-md-2" id="kind">
                     <option></option>
                     {% for c in kind %}
@@ -42,7 +42,7 @@
                 </div>
 
                         <div class="col-md-3"></div>
-                        <input type="submit" class="btn  btn-submit" value="Search">
+                        <input type="submit" class="btn  btn-submit" value="Tìm kiếm">
           </form>
     </div>
   </div>
@@ -53,14 +53,14 @@
   <div class="container" data-aos="fade-up">
 
     <div class="section-title">
-      <h2>Rooms</h2>
-      <p>Check Our Rooms</p>
+      <h2>Phòng</h2>
+      <p>Xem các phòng của chúng tôi</p>
     </div>
 
     <div class="row" data-aos="fade-up" data-aos-delay="100">
       <div class="col-lg-12 d-flex justify-content-center">
         <ul id="menu-flters">
-          <li data-filter="*" class="filter-active">All</li>
+          <li data-filter="*" class="filter-active">Tất cả</li>
           {% for c in kind %}
           <li data-filter=".filter-{{ c.id }}">{{c.name}}</li>
           {% endfor %}
@@ -71,7 +71,7 @@
     <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
       {% for p in rooms %}
       <div class="col-lg-6 menu-item filter-{{p.kind_id}}">
-        <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
+        <a href="{{ url_for('room_detail', room_id=p.id) }}"><img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt=""></a>
         <div class="menu-content">
           <a href="{{ url_for('room_detail', room_id=p.id) }}">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
         </div>

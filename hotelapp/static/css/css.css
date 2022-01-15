@@ -5,15 +5,15 @@
 
 html {
   font-family: "Inter", sans-serif;
-  background: #1A1814;
-  color: black;
+  background: #18191a;
+  color: #E4E6EB;
   font-size: 100%;
   font-weight: 400;
   scroll-behavior: smooth;
 }
 
 body {
-  background: #1A1814 !important;
+  background: #18191a !important;
 }
 
 img {
@@ -70,6 +70,71 @@ h4 {
   border-radius: 0.5rem;
   color: white;
   font-size: 1rem;
+}
+
+.register_form {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  grid-gap: 3rem;
+}
+
+.register_form label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #E4E6EB;
+  width: 100%;
+}
+
+.register_form input {
+  width: 100% !important;
+  height: 3rem;
+  text-align: left !important;
+}
+
+.register_form input[type=submit] {
+  margin-left: 0rem !important;
+}
+
+.login-form #formContent {
+  background-color: #c7c6c6;
+}
+
+.login-form #formFooter {
+  background-color: #c7c6c6;
+}
+
+.room-info {
+  color: #E4E6EB;
+}
+
+.booking-page {
+  color: #E4E6EB;
+}
+
+.booking-page .booking-button-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.booking-page .booking-button-wrapper div {
+  margin-left: 0px !important;
+}
+
+#paymentModal {
+  color: #E4E6EB;
+}
+
+#paymentModal .modal-content {
+  background-color: #4b4e51 !important;
 }
 
 @media only screen and (max-width: 70em) {
