@@ -248,8 +248,9 @@ def get_booking_total_price(receipt_id):
 
 
 #chuyen phong sang trang thai da tra tien
-def get_booking_total_price(receipt_id):
+def booking_pay_by_id(receipt_id):
     ReceiptDetail.query.filter(ReceiptDetail.receipt_id == receipt_id).update({'paid':True})
+    db.session.commit()
 
 
 

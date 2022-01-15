@@ -42,6 +42,7 @@ function payment(receiptId){
            data=response.data;
           if (data.code == 200) {
               $('#total_price').val(data.price)
+              $('#formPaymentReceipId').val(receiptId)
           } else if (data.code == 404)
               alert(data.err_msg)
     
@@ -51,21 +52,45 @@ function payment(receiptId){
 
 
 
-function payment(receiptId){
-  axios({
-    method: 'post',
-    url: '/api/booking/payment',
-    data:{
-      receipt_id: receiptId
-    }
-  }).then((response)=>{
-       data=response.data;
-      if (data.code == 200) {
-          $('#total_price').val(data.price)
-      } else if (data.code == 404)
-          alert(data.err_msg)
+function paymentSubmit(){
+  receiptId =  $('#formPaymentReceipId')
+  totalPrice = $('#total_price')
+  inPrice = $('#in_price')
+  outPrice = $('#out_price')
+  if(!receiptId.val() || !totalPrice.val() || !inPrice.val() || !outPrice.val()){
+    alert("Vui lòng nhập đầy đủ thông tin")
+  }
+  else if (totalPrice.val() < 0 || inPrice.val() < 0 || outPrice.val() < 0){
+    alert("Giá trị không hợp lệ")
 
-  }).catch(err => console.error(err))
+  }
+  else if(inPrice.val() < totalPrice.val()){
+    alert("Tiền phòng không đủ")
+  }
+  else{
+      axios({
+        method: 'post',
+        url: '/api/booking/payment',
+        data:{
+          receipt_id: receiptId.val(),
+          total_price: totalPrice.val(),
+          in_price: inPrice.val(),
+
+        }
+      }).then((response)=>{
+          data=response.data;
+          if (data.code == 200) {
+              alert(data.msg)
+              location.reload()
+
+
+          } else if (data.code == 404)
+              alert(data.err_msg)
+    
+      }).catch(err => console.error(err))
+  }
+
+
 };
 
 
