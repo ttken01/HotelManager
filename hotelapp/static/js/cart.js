@@ -124,8 +124,13 @@ function addComment(roomId){
 function addList(){
     var a = document.getElementById('amount').value
     let area = document.getElementById('addListArea')
+    area.innerHTML=`<tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>CMND</th>
+                    </tr>`
     let brAdd = document.getElementById('brAddId')
-    for(i=1; i<=a; i++){
+    for(i=0; i<a; i++){
         area.innerHTML = area.innerHTML + `
             <tr>
                 <th><input type="text" class="arrival " id="name${i}" name="name${i}"></th>

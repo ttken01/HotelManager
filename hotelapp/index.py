@@ -2,6 +2,7 @@ import string
 
 from sqlalchemy.sql.elements import Null
 
+from datetime import datetime
 from hotelapp import app, db, login
 from flask import render_template, request, redirect, url_for, session, jsonify
 from hotelapp.utils import room_booking_cancel
@@ -45,15 +46,20 @@ def staff1():
         to_date = request.form.get('enddate')
         amount = request.form.get('amount')
         arr = [[]]
-
+        from_date = datetime.strptime(from_date, "%Y-%m-%d")
+        to_date = datetime.strptime(to_date, "%Y-%m-%d" )
+        name = 'name'
+        cmnd = 'cmnd'
+        address = 'address'
         if amount:
-            for i in range(0, int(amount)):
-                arr[i].append(request.form.get('name1'))
-                arr[i].append(request.form.get('cmnd1'))
-                arr[i].append(request.form.get('address1'))
+            for i in range(int(amount)):
+                print(i)
+                arr[i].append(request.form.get(name+ str(i)))
+                arr[i].append(request.form.get(cmnd+ str(i)))
+                arr[i].append(request.form.get(address+ str(i)))
 
-        user = utils.get_user_by_username(user_name=username.strip())
-        utils.add_receipt_detail_list(user_id=user.id,
+        user = utils.get_user_by_username(user_name=username)
+        utils.add_receipt_detail_list(user=user,
                                       room_id=roomid.strip(),
                                       check_in=from_date,
                                       check_out=to_date,

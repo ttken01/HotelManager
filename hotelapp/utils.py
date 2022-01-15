@@ -42,7 +42,7 @@ def get_user_by_id(user_id):
     return User.query.get(user_id)
 
 def get_user_by_username(user_name):
-    return User.query.get(user_name)
+    return User.query.filter(User.username.__eq__(user_name)).first()
 
 #them user
 def add_user(name, username, password, **kwargs):
@@ -57,13 +57,14 @@ def add_user(name, username, password, **kwargs):
     db.session.commit()
 
 
-def add_receipt_detail_list(user_id, room_id, check_in, check_out, amount, arr = [[]]):
+def add_receipt_detail_list(user, room_id, check_in, check_out, amount, arr = [[]]):
 
-    receipt = Receipt(user=current_user)
+    receipt = Receipt(user=user)
     db.session.add(receipt)
 
     room = get_room_by_id(room_id)
-    unit_price = room.price *(check_out - check_in + 1)
+    dt = check_out - check_in
+    unit_price = room.price * (int(dt.days) + 1)
 
     receipt_detail = ReceiptDetail(receipt=receipt,
                                    room_id=room_id,
@@ -73,8 +74,8 @@ def add_receipt_detail_list(user_id, room_id, check_in, check_out, amount, arr =
 
     db.session.add(receipt_detail)
 
-    for i in range(0, amount):
-        db.session.add(List(receipt_id=receipt_detail.receipt_id,
+    for i in range(amount):
+        db.session.add(List(receipt_id=receipt.id,
                             name=arr[i][0],
                             cmnd=arr[i][1],
                             address=arr[i][2]))
