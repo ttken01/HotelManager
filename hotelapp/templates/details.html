@@ -11,10 +11,21 @@
             <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" alt="{{ room.name }}">
         </div>
         <div class="col-md-4 col-xs-12">
-            <h2>{{ room.name }}</h2>
-            <p> {{ room.description }} </p>
-            <h2>Số lượng: {{ room.amount }}</h2>
-            <h4>{{ "{:,.1f}".format(room.price) }} VND</h4>
+            <h2 class="text text-success"><i>Tên phòng: </i>{{ room.name }}</h2>
+            <table class="table">
+                <tr>
+                    <th>Chi tiết:</th>
+                    <th>{{ room.description }}</th>
+                </tr>
+                <tr>
+                    <th>Số người 1 phòng:</th>
+                    <th>{{ room.amount }}</th>
+                </tr>
+                <tr>
+                    <th>Giá(1 ngày đêm):</th>
+                    <th>{{ "{:,.1f}".format(room.price) }} VND</th>
+                </tr>
+            </table>
         </div>
         <br><br>
     </div>

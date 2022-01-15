@@ -84,7 +84,7 @@ def staff1():
         except Exception as ex:
             err_msg = 'He thong dang co loi:' + str(ex)
 
-    return render_template('staff1.html', rooms=rooms, err_msg=err_msg)
+    return render_template('booking.html', rooms=rooms, err_msg=err_msg)
 
 @app.route('/booking-list', methods = ['post', 'get'])
 def booking_list():

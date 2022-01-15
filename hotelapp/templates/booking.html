@@ -84,11 +84,11 @@
     <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
 
       {% for p in rooms %}
-      <div class="col-lg-6 menu-item filter-starters">
+      <div class="col-lg-6 menu-item filter-{{p.kind_id}}">
         <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt={{ p.name }}>
         <div class="menu-content">
 
-          <a href="#">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
+          <a href="{{ url_for('room_detail', room_id=p.id) }}">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
         </div>
         <div class="menu-ingredients">
             ROOM ID:
