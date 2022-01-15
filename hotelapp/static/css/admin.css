@@ -12,6 +12,10 @@ input[type=submit]{
 
 
 
+  .navbar-expand-lg .navbar-collapse{
+    flex-wrap: wrap !important;
+}
+
 
 
 @media only screen and (max-width: 992px) {
