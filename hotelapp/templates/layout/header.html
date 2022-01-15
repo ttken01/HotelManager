@@ -2,16 +2,11 @@
   <div class="container d-flex justify-content-center justify-content-md-between">
 
     <div class="contact-info d-flex align-items-center">
-      <i class="bi bi-phone d-flex align-items-center"><span>+1 5589 55488 55</span></i>
-      <i class="bi bi-clock d-flex align-items-center ms-4"><span> Mon-Sat: 11AM - 23PM</span></i>
+      <i class="bi bi-phone d-flex align-items-center"><span>+123456789</span></i>
+      <i class="bi bi-clock d-flex align-items-center ms-4"><span> Mọi ngày trong tuần: 7AM - 23PM</span></i>
     </div>
 
-    <div class="languages d-none d-md-flex align-items-center">
-      <ul>
-        <li>En</li>
-        <li><a href="#">De</a></li>
-      </ul>
-    </div>
+
   </div>
 </div>
 
@@ -25,7 +20,7 @@
 
     <nav id="navbar" class="navbar order-last order-lg-0">
       <ul>
-        <li><a class="nav-link scrollto active" href="/">Home</a></li>
+        <li><a class="nav-link scrollto active" href="/">Trang chủ</a></li>
 
         
       {% if current_user.is_authenticated %}
@@ -43,31 +38,31 @@
         </a>
         </li>
         {% if current_user.user_role == userRole.STAFF %}
-          <li><a class="nav-link scrollto" href="/staff1">BOOKING</a></li>
-          <li><a class="nav-link scrollto" href="{{url_for('booking_list')}}">BOOKING LIST</a></li>
+          <li><a class="nav-link scrollto" href="/staff1">Đặt phòng</a></li>
+          <li><a class="nav-link scrollto" href="{{url_for('booking_list')}}">Danh sách đặt phòng</a></li>
         {% endif %}
         <li class="nav-item">
-          <a class="nav-link" href="{{url_for('user_signout')}}">Log out</a>
+          <a class="nav-link" href="{{url_for('user_signout')}}">Đăng xuất</a>
         </li>
       {% else %}
       <li class="nav-item">
-        <a class="nav-link " href="{{ url_for('user_register') }}">Register</a>
+        <a class="nav-link " href="{{ url_for('user_register') }}">Đăng kí</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link  " href="{{url_for('user_signin')}}">Login</a>
+        <a class="nav-link  " href="{{url_for('user_signin')}}">Đăng nhập</a>
       </li>
       {% endif %}
       {% if current_user.user_role == userRole.USER %}
         <li class="nav-item">
           <a class="nav-link text-danger font-weight-bold" href="{{ url_for('cart') }}">
-              Booked room <span class="badge badge-danger" id="cartCounter">{{ cart_stats.total_quantity }}</span>
+              Phòng đã đặt<span class="badge badge-danger" id="cartCounter">{{ cart_stats.total_quantity }}</span>
           </a>
         </li>
         {% endif %}
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav><!-- .navbar -->
-    <a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>
+    <a href="#menu" class="book-a-table-btn scrollto d-none d-lg-flex">Đặt phòng ngay</a>
 
   </div>
 </header><!-- End Header -->
