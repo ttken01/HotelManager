@@ -40,7 +40,7 @@ def home():
 def staff1():
     if current_user.user_role == UserRole.STAFF:
         rooms = utils.load_room()
-        err_msg = ""
+        err_msg = ''
         if request.method.__eq__('POST'):
             username = request.form.get('username')
             roomid = request.form.get('roomid')
@@ -66,16 +66,19 @@ def staff1():
               roomid = "1";
             if amount:
                 for i in range(int(amount)):
+                    if i > 0:
+                        arr.append([])
                     print(i)
                     arr[i].append(request.form.get(name+ str(i)))
                     arr[i].append(request.form.get(cmnd+ str(i)))
                     arr[i].append(request.form.get(address+ str(i)))
-                    utils.add_receipt_detail_list(user=user,
-                                                room_id=roomid.strip(),
-                                                check_in=from_date,
-                                                check_out=to_date,
-                                                amount=int(amount),
-                                                arr=arr)
+                utils.add_receipt_detail_list(user=user,
+                                            room_id=roomid.strip(),
+                                            check_in=from_date,
+                                            check_out=to_date,
+                                            amount=int(amount),
+                                            arr=arr)
+                err_msg = 'Đã đặt thành công!!'
             else:
                 utils.add_receipt_detail_list(user=user,
                                           room_id=roomid.strip(),
@@ -83,7 +86,7 @@ def staff1():
                                           check_out=to_date,
                                           amount=0)
             try:
-                return redirect(url_for('staff1'))
+                return render_template('booking.html', rooms=rooms, err_msg=err_msg)
             except Exception as ex:
              err_msg = 'He thong dang co loi:' + str(ex)
 
@@ -103,10 +106,28 @@ def booking_list():
         err_msg = ""
         if request.method.__eq__('POST'):
             username = request.form.get('username')
-            roomid = request.form.get('roomid')
-            user = utils.get_user_by_username(user_name=username.strip())
+            room_name = request.form.get('room_name')
+            created_date = request.form.get('created_date')
+            if created_date:
+                created_date = datetime.strptime(created_date, "%Y-%m-%d")
+            if username == '':
+                if room_name == '':
+                    roomBooking = utils.load_room_booking(created_date=created_date)
+                else:
+                    roomBooking = utils.load_room_booking(room_name=room_name,
+                                                          created_date=created_date)
+            elif room_name == '':
+                if username == '':
+                    roomBooking = utils.load_room_booking(created_date=created_date)
+                else:
+                    roomBooking = utils.load_room_booking(username=username,
+                                                          created_date=created_date)
+            else:
+                roomBooking = utils.load_room_booking(username=username,
+                                                      room_name=room_name,
+                                                      created_date=created_date)
             try:
-                    return redirect(url_for('booking-list'))
+                return render_template('bookinglist.html', roomBooking=roomBooking)
             except Exception as ex:
                 err_msg = 'He thong dang co loi:' + str(ex)
 
@@ -362,19 +383,22 @@ def room_detail(room_id):
                            comments=comments)
 
 @app.route("/receipts/<int:receipt_id>")
+@login_required
 def receipt_detail(receipt_id):
-
-    receipt = utils.get_receipt_by_receiptid(receipt_id)
-    user = utils.get_user_by_id(receipt.user_id)
-    receiptDetail = utils.get_receipt_detail_by_receipt_id(receipt_id)
-    listDT = utils.get_list_by_receiptid(receipt_id)
-    room = utils.get_room_by_id(receiptDetail.room_id)
-    return render_template('ReceiptDetail.html',
-                           receipt = receipt,
-                           receiptDetail=receiptDetail,
-                           user=user,
-                           listDT=listDT,
-                           room=room)
+    if current_user.user_role == UserRole.STAFF:
+        receipt = utils.get_receipt_by_receiptid(receipt_id)
+        user = utils.get_user_by_id(receipt.user_id)
+        receiptDetail = utils.get_receipt_detail_by_receipt_id(receipt_id)
+        listDT = utils.get_list_by_receiptid(receipt_id)
+        room = utils.get_room_by_id(receiptDetail.room_id)
+        return render_template('ReceiptDetail.html',
+                               receipt = receipt,
+                               receiptDetail=receiptDetail,
+                               user=user,
+                               listDT=listDT,
+                               room=room)
+    else:
+        abort(403)
 
 @app.route('/api/comments', methods=['post'])
 @login_required

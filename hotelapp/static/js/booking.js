@@ -115,7 +115,3 @@ function cancelBooking(receiptId) {
   }
 }
 
-
-function bookingAlert(){
-    alert('Đã đặt phòng thành công')
-}

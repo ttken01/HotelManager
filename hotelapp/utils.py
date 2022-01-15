@@ -2,7 +2,7 @@ from hotelapp import app, db
 from hotelapp.models import Kind, Room, User, Receipt, ReceiptDetail, Comment, List
 from sqlalchemy import func
 from flask_login import current_user
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import hashlib
 
 #lấy dữ liệu loại phòng
@@ -226,7 +226,7 @@ def get_comments(page = 1):
     return Comment.query.order_by(-Comment.id).slice(start, start + page_size).all()
 
 #lấy dữ liệu phòng đẫ được đặt
-def load_room_booking():
+def load_room_booking(username =None, room_name=None, created_date = None):
     q = db.session.query(
         Receipt,
         User,
@@ -234,7 +234,24 @@ def load_room_booking():
         ReceiptDetail
     ).join(ReceiptDetail, Receipt.id==ReceiptDetail.receipt_id).filter(ReceiptDetail.paid==False)\
      .join(Room, ReceiptDetail.room_id ==Room.id)\
-    .join(User, Receipt.user_id==User.id)
+    .join(User, Receipt.user_id==User.id)\
+    .order_by(-Receipt.created_date)
+
+    if username:
+        # Thống kê theo loại phòng
+        if username:
+            q = q.filter(User.username.contains(username.strip()))
+
+        # xem doanh thu theo tên phòng
+        if room_name:
+            q = q.filter(Room.name.contains(room_name))
+
+
+        # xuất ra doanh thu thông tin phòng từ ngày from_date
+        if created_date:
+
+            q = q.filter(func.DATE(Receipt.created_date) == created_date)
+
     return q.all()
 
 
