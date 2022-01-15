@@ -4,15 +4,11 @@
 {% block content%}
 <br><br><br><br><br><br><br>
 <div class="container room-info">
-    <h1 class="text text-info">Chi tiết hóa đơn {{ receipt.id }}</h1>
-
+    <h1 class="text text-info text-center">Chi tiết hóa đơn {{ receipt.id }}</h1>
+    <h3 class="text text-success text-center">Khách hàng: {{user.name}}</h3>
     <div class="row" >
-        <div class="col-md-8 col-xs-12">
-            <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" alt="">
-        </div>
-        <div class="col-md-4 col-xs-12">
-            <h2 class="text text-success">Khách hàng: {{user.name}}</h2>
-            <table class="table">
+        <div>
+            <table class="table" style="text-align: center;">
                 <tr>
                     <th>Mã phòng:</th>
                     <th>{{ receiptDetail.room_id }}</th>
@@ -49,8 +45,8 @@
             </table>
         </div>
         <div>
-            <h3>Thành viên trong phòng</h3>
-            <table class="table">
+            <h3 class="text text-center">Thành viên trong phòng</h3>
+            <table class="table" style="text-align: center;">
                 <tr>
                     <th>Tên</th>
                     <th>CMND</th>

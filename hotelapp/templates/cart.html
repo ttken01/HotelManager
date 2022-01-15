@@ -48,7 +48,7 @@
 
 <div class="alert alert-info">
     <h5>Tồng phòng đã đặt: <span id="cartCounter2">{{ cart_stats.total_quantity }}</span></h5>
-    <h5>Tổng tiền: <span id="cartAmount">{{ "{:,.1f}".format(cart_stats.total_amount) }}</span> VND</h5>
+    <h5>Tổng tiền: <span id="cartAmount">{{ "{:,.1f}".format(cart_stats.total_amount)}}</span> VND</h5>
 </div>
 
 {% if current_user.is_authenticated %}
