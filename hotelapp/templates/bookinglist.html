@@ -74,7 +74,7 @@
       <div class="col-lg-6 menu-item filter-{{p.Room.kind_id}}">
         <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt="">
         <div class="menu-content">
-          <a href="#">{{ p.Room.name }}</a><span>{{ "{:,.1f}".format(p.Room.price) }} VND</span>
+          <a href="{{ url_for('receipt_detail', receipt_id=p.Receipt.id)}}">{{ p.Room.name }}</a><span>{{ "{:,.1f}".format(p.Room.price) }} VND</span>
          
         </div>
         <div>

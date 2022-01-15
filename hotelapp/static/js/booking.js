@@ -114,3 +114,8 @@ function cancelBooking(receiptId) {
       }).catch(err => console.error(err))
   }
 }
+
+
+function bookingAlert(){
+    alert('Đã đặt phòng thành công')
+}

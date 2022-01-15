@@ -99,9 +99,16 @@ class StatsView(BaseView):
         kw = request.args.get('kw')
         from_date = request.args.get('from_date')
         to_date = request.args.get('to_date')
-        stats = utils.room_stats(kw=kw,
+        kindname = request.args.get('kindname')
+        if kindname == '':
+            stats = utils.room_stats(kw=kw,
+                                     from_date=from_date,
+                                     to_date=to_date)
+
+        else:
+            stats = utils.room_stats(kw=kw,
                                  from_date=from_date,
-                                 to_date=to_date)
+                                 to_date=to_date, kindname=kindname)
         stats_sum = 0
         for s in stats:
             stats_sum += s[2]

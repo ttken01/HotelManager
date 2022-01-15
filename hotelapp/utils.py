@@ -23,6 +23,7 @@ def load_room(kind = None, amount = None, from_date = None, to_date = None):
 
     return rooms.all()
 
+#trả phòng về theo id
 def get_room_by_id(room_id):
     return Room.query.get(room_id)
 
@@ -41,8 +42,23 @@ def load_ReceiptDetail():
 def get_user_by_id(user_id):
     return User.query.get(user_id)
 
+#Trả về theo username
 def get_user_by_username(user_name):
     return User.query.filter(User.username.__eq__(user_name)).first()
+
+#trả về theo receipt_id
+def get_receipt_by_receiptid(receiptId):
+    return Receipt.query.get(receiptId)
+
+#trả receipt detail về theo receipt id
+def get_receipt_detail_by_receipt_id(receiptId):
+    return ReceiptDetail.query.filter(ReceiptDetail.receipt_id == receiptId).first()
+
+#trả list thành viên về theo receipt id:
+def get_list_by_receiptid(receiptId):
+    return  List.query.filter(List.receipt_id == receiptId)
+
+
 
 #them user
 def add_user(name, username, password, **kwargs):
@@ -142,11 +158,17 @@ def room_count_by_cate():
 
 
 #Lọc dữ liệu bảng thông kê trên admin
-def room_stats(kw=None, from_date=None, to_date=None):
-    p = db.session.query(Room.id, Room.name, func.sum(ReceiptDetail.unit_price))\
+def room_stats(kw=None, from_date=None, to_date=None, kindname = None):
+    p = db.session.query(Room.id, Room.name, func.sum(ReceiptDetail.unit_price), Kind.name)\
+                .join(Kind, Kind.id.__eq__(Room.kind_id))\
                 .join(ReceiptDetail, ReceiptDetail.room_id.__eq__(Room.id), isouter=True)\
                 .join(Receipt, Receipt.id.__eq__(ReceiptDetail.receipt_id))\
-                .group_by(Room.id, Room.name)
+                .group_by(Room.id, Room.name)\
+                .order_by(Room.id, Room.name)
+
+    #Thống kê theo loại phòng
+    if kindname:
+        p = p.filter(Kind.name.contains(kindname.strip()))
 
     #xem doanh thu theo tên phòng
     if kw:
@@ -167,7 +189,8 @@ def room_stats_used():
     p =  db.session.query(Room.name, func.count(Room.id))\
         .join(ReceiptDetail, ReceiptDetail.room_id.__eq__(Room.id), isouter = True) \
         .join(Receipt, Receipt.id.__eq__(ReceiptDetail.receipt_id))\
-        .group_by(Room.name)
+        .group_by(Room.name)\
+        .order_by(-func.count(Room.id))
 
     return p.all()
 

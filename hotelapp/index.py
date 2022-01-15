@@ -46,26 +46,39 @@ def staff1():
         to_date = request.form.get('enddate')
         amount = request.form.get('amount')
         arr = [[]]
-        from_date = datetime.strptime(from_date, "%Y-%m-%d")
-        to_date = datetime.strptime(to_date, "%Y-%m-%d" )
+        if from_date or to_date:
+            from_date = datetime.strptime(from_date, "%Y-%m-%d")
+            to_date = datetime.strptime(to_date, "%Y-%m-%d" )
+        else:
+            from_date = datetime.now()
+            to_date = datetime.now()
         name = 'name'
         cmnd = 'cmnd'
         address = 'address'
+        if username == "":
+            user = current_user
+        else:
+            user = utils.get_user_by_username(user_name=username)
+        if roomid == "":
+            roomid = "1";
         if amount:
             for i in range(int(amount)):
                 print(i)
                 arr[i].append(request.form.get(name+ str(i)))
                 arr[i].append(request.form.get(cmnd+ str(i)))
                 arr[i].append(request.form.get(address+ str(i)))
-
-        user = utils.get_user_by_username(user_name=username)
-        utils.add_receipt_detail_list(user=user,
-                                      room_id=roomid.strip(),
-                                      check_in=from_date,
-                                      check_out=to_date,
-                                      amount=int(amount),
-                                      arr = arr)
-
+                utils.add_receipt_detail_list(user=user,
+                                              room_id=roomid.strip(),
+                                              check_in=from_date,
+                                              check_out=to_date,
+                                              amount=int(amount),
+                                              arr=arr)
+        else:
+            utils.add_receipt_detail_list(user=user,
+                                          room_id=roomid.strip(),
+                                          check_in=from_date,
+                                          check_out=to_date,
+                                          amount=0)
         try:
                 return redirect(url_for('staff1'))
         except Exception as ex:
@@ -190,13 +203,7 @@ def user_signout():
     logout_user()
     return redirect(url_for('user_signin'))
 
-@app.context_processor
-def common_response():
-    return {
-        'kind': utils.load_kind(),
-        'userRole' : UserRole,
-        'cart_stats': utils.cart_stats(session.get('cart'))
-    }
+
 
 
 @login.user_loader
@@ -327,6 +334,20 @@ def room_detail(room_id):
                            room=room,
                            comments=comments)
 
+@app.route("/receipts/<int:receipt_id>")
+def receipt_detail(receipt_id):
+
+    receipt = utils.get_receipt_by_receiptid(receipt_id)
+    user = utils.get_user_by_id(receipt.user_id)
+    receiptDetail = utils.get_receipt_detail_by_receipt_id(receipt_id)
+    listDT = utils.get_list_by_receiptid(receipt_id)
+    room = utils.get_room_by_id(receiptDetail.room_id)
+    return render_template('ReceiptDetail.html',
+                           receipt = receipt,
+                           receiptDetail=receiptDetail,
+                           user=user,
+                           listDT=listDT,
+                           room=room)
 
 @app.route('/api/comments', methods=['post'])
 @login_required
@@ -349,6 +370,14 @@ def add_comment():
         }
     }}
 
+
+@app.context_processor
+def common_response():
+    return {
+        'kind': utils.load_kind(),
+        'userRole' : UserRole,
+        'cart_stats': utils.cart_stats(session.get('cart'))
+    }
 
 if __name__ == '__main__':
     from hotelapp.admin import *

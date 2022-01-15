@@ -1,0 +1,70 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Thông tin phòng{% endblock %}
+{% block content%}
+<br><br><br><br><br><br><br>
+<div class="container room-info">
+    <h1 class="text text-info">Chi tiết hóa đơn {{ receipt.id }}</h1>
+
+    <div class="row" >
+        <div class="col-md-8 col-xs-12">
+            <img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" alt="">
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h2 class="text text-success">Khách hàng: {{user.name}}</h2>
+            <table class="table">
+                <tr>
+                    <th>Mã phòng:</th>
+                    <th>{{ receiptDetail.room_id }}</th>
+                </tr>
+                <tr>
+                    <th>Tên phòng:</th>
+                    <th>{{ room.name }}</th>
+                </tr>
+                <tr>
+                    <th>Loại phòng:</th>
+                    {% for c in kind %}
+                        {% if room.kind_id == c.id %}
+                            <th>{{ c.name }}</th>
+                        {% endif %}
+                    {% endfor %}
+
+                </tr>
+                <tr>
+                    <th>Ngày đặt:</th>
+                    <th>{{ receipt.created_date }}</th>
+                </tr>
+                <tr>
+                    <th>Check in:</th>
+                    <th>{{receiptDetail.check_in}}</th>
+                </tr>
+                <tr>
+                    <th>Check out:</th>
+                    <th>{{receiptDetail.check_out}}</th>
+                </tr>
+                <tr>
+                    <th>Tổng hóa đơn</th>
+                    <th>{{ "{:,.1f}".format(receiptDetail.unit_price) }} VND</th>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h3>Thành viên trong phòng</h3>
+            <table class="table">
+                <tr>
+                    <th>Tên</th>
+                    <th>CMND</th>
+                    <th>Địa chỉ</th>
+                </tr>
+                {% for p in listDT %}
+                <tr>
+                    <th>{{ p.name }}</th>
+                    <th>{{ p.cmnd }}</th>
+                    <th>{{ p.address }}</th>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

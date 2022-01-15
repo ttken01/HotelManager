@@ -11,6 +11,7 @@
                 <th>Mã Phòng</th>
                 <th>Tên Phòng</th>
                 <th>Doanh Thu</th>
+                <th>Loại Phòng</th>
             </tr>
             {% for s in stats %}
             <tr>
@@ -23,6 +24,7 @@
                     0 VND
                     {% endif %}
                 </th>
+                <th>{{s[3]}}</th>
             </tr>
             {% endfor %}
 
@@ -35,6 +37,18 @@
     <div class="col-md-6">
         <form>
             <div class="form-group">
+                <div><lable for="kindname">Loại phòng</lable></div>
+                <select class="form-control col-md-6" name="kindname" id="kindname">
+                        <option></option>
+                        <option value="Standard">Standard</option>
+                        <option value="Superior">Superior</option>
+                        <option value="Deluxe">Deluxe</option>
+                        <option value="Suite">Suite</option>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <div><lable for="kw">Tên phòng</lable></div>
                 <input type="text" class="form-control" name="kw" placeholder="Nhap tu khoa...">
             </div>
             <div class="form-group">
@@ -67,7 +81,7 @@
             <tr>
                 <th>{{ d[0] }}</th>
                 <th>{{ d[1] }}</th>
-                <th>{{ "{:,.1f}".format(d[1]*100/sumUsed) }}</th>
+                <th>{{ "{:,.1f}".format(d[1]*100/sumUsed) }}%</th>
             </tr>
             {% endfor %}
             <tr style="border-style: double;">
