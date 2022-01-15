@@ -73,6 +73,7 @@ def add_user(name, username, password, **kwargs):
     db.session.commit()
 
 
+#thêm vào receipt receipt_detai list trong cơ sở dữ liệu
 def add_receipt_detail_list(user, room_id, check_in, check_out, amount, arr = [[]]):
 
     receipt = Receipt(user=user)
@@ -120,8 +121,9 @@ def cart_stats(cart):
         'total_amount': total_amount
     }
 
-#Thêm đơn đặt phòng vao csdl
 
+
+#Thêm đơn đặt phòng vao csdl
 def add_receipt(cart):
 
     if cart:
@@ -195,6 +197,7 @@ def room_stats_used():
     return p.all()
 
 
+#tổng số lần đã đặt phòng
 def sum_rooms_stats():
     p = db.session.query(func.count(ReceiptDetail.receipt_id)) \
         .join(Receipt, Receipt.id.__eq__(ReceiptDetail.receipt_id))
@@ -206,7 +209,7 @@ def sum_rooms_stats():
     return d
 
 
-
+#thêm comment vào csdl
 def add_comment(content, room_id):
     c = Comment(content=content, room_id=room_id, user=current_user)
 
@@ -215,6 +218,7 @@ def add_comment(content, room_id):
 
     return c
 
+#lấy comments ra từ cơ sở dữ liệu
 def get_comments(page = 1):
     page_size = app.config['COMMENT_SIZE']
     start = (page - 1) * page_size
