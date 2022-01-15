@@ -137,6 +137,14 @@ h4 {
   background-color: #4b4e51 !important;
 }
 
+.contact h4 {
+  color: #E4E6EB;
+}
+
+.why-us {
+  background-color: #0c0b09;
+}
+
 @media only screen and (max-width: 70em) {
   html {
     font-size: 85%;
