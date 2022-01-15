@@ -105,12 +105,44 @@ h4{
 
 
 
+.login-form{
+    #formContent{
+        background-color: #c7c6c6;
+
+    }
+    #formFooter{
+        background-color: #c7c6c6;
+
+    }
+}
+
+
+.room-info{
+    color: $color-text;
+
+}
 
 //--------------------------------------------------------------------------
 
+.booking-page{
+    color: $color-text;
+    .booking-button-wrapper{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        div{
+            margin-left: 0px !important;
+        }
+    }
+  
+}
 
-
-
+#paymentModal{
+    color: $color-text;
+    .modal-content{
+        background-color: #4b4e51 !important;
+    }
+}
 
 //--------------------------------------------------------------------------
 

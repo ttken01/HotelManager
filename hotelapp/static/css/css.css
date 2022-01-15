@@ -97,6 +97,46 @@ h4 {
   margin-left: 0rem !important;
 }
 
+.login-form #formContent {
+  background-color: #c7c6c6;
+}
+
+.login-form #formFooter {
+  background-color: #c7c6c6;
+}
+
+.room-info {
+  color: #E4E6EB;
+}
+
+.booking-page {
+  color: #E4E6EB;
+}
+
+.booking-page .booking-button-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.booking-page .booking-button-wrapper div {
+  margin-left: 0px !important;
+}
+
+#paymentModal {
+  color: #E4E6EB;
+}
+
+#paymentModal .modal-content {
+  background-color: #4b4e51 !important;
+}
+
 @media only screen and (max-width: 70em) {
   html {
     font-size: 85%;
