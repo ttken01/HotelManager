@@ -4,10 +4,10 @@ from sqlalchemy.sql.elements import Null
 
 from datetime import datetime
 from hotelapp import app, db, login
-from flask import render_template, request, redirect, url_for, session, jsonify
+from flask import render_template, request, redirect, url_for, session, jsonify, abort
 from hotelapp.utils import booking_pay_by_id, room_booking_cancel
 import utils
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from hotelapp.admin import *
 import cloudinary.uploader
 
@@ -36,120 +36,143 @@ def home():
     else: return render_template('index.html', rooms=utils.load_room())
 
 @app.route('/staff1', methods = ['post', 'get'])
+@login_required
 def staff1():
-    rooms = utils.load_room()
-    err_msg = ""
-    if request.method.__eq__('POST'):
-        username = request.form.get('username')
-        roomid = request.form.get('roomid')
-        from_date = request.form.get('startdate')
-        to_date = request.form.get('enddate')
-        amount = request.form.get('amount')
-        arr = [[]]
-        if from_date or to_date:
-            from_date = datetime.strptime(from_date, "%Y-%m-%d")
-            to_date = datetime.strptime(to_date, "%Y-%m-%d" )
-        else:
-            from_date = datetime.now()
-            to_date = datetime.now()
-        name = 'name'
-        cmnd = 'cmnd'
-        address = 'address'
-        if username == "":
-            user = current_user
-        else:
-            user = utils.get_user_by_username(user_name=username)
-        if roomid == "":
-            roomid = "1";
-        if amount:
-            for i in range(int(amount)):
-                print(i)
-                arr[i].append(request.form.get(name+ str(i)))
-                arr[i].append(request.form.get(cmnd+ str(i)))
-                arr[i].append(request.form.get(address+ str(i)))
+    if current_user.user_role == UserRole.STAFF:
+        rooms = utils.load_room()
+        err_msg = ""
+        if request.method.__eq__('POST'):
+            username = request.form.get('username')
+            roomid = request.form.get('roomid')
+            from_date = request.form.get('startdate')
+            to_date = request.form.get('enddate')
+            amount = request.form.get('amount')
+            arr = [[]]
+            if from_date or to_date:
+              from_date = datetime.strptime(from_date, "%Y-%m-%d")
+              to_date = datetime.strptime(to_date, "%Y-%m-%d" )
+            else:
+              from_date = datetime.now()
+              to_date = datetime.now()
+           
+            name = 'name'
+            cmnd = 'cmnd'
+            address = 'address'
+            if username == "":
+              user = current_user
+            else:
+              user = utils.get_user_by_username(user_name=username)
+            if roomid == "":
+              roomid = "1";
+            if amount:
+                for i in range(int(amount)):
+                    print(i)
+                    arr[i].append(request.form.get(name+ str(i)))
+                    arr[i].append(request.form.get(cmnd+ str(i)))
+                    arr[i].append(request.form.get(address+ str(i)))
+                    utils.add_receipt_detail_list(user=user,
+                                                room_id=roomid.strip(),
+                                                check_in=from_date,
+                                                check_out=to_date,
+                                                amount=int(amount),
+                                                arr=arr)
+            else:
                 utils.add_receipt_detail_list(user=user,
-                                              room_id=roomid.strip(),
-                                              check_in=from_date,
-                                              check_out=to_date,
-                                              amount=int(amount),
-                                              arr=arr)
-        else:
-            utils.add_receipt_detail_list(user=user,
                                           room_id=roomid.strip(),
                                           check_in=from_date,
                                           check_out=to_date,
                                           amount=0)
-        try:
+            try:
                 return redirect(url_for('staff1'))
-        except Exception as ex:
-            err_msg = 'He thong dang co loi:' + str(ex)
+            except Exception as ex:
+             err_msg = 'He thong dang co loi:' + str(ex)
 
-    return render_template('booking.html', rooms=rooms, err_msg=err_msg)
+
+        return render_template('booking.html', rooms=rooms, err_msg=err_msg)
+    else:
+        abort(403)  
+
+  
 
 @app.route('/booking-list', methods = ['post', 'get'])
+@login_required
 def booking_list():
+    if current_user.user_role == UserRole.STAFF:
     
-    roomBooking = utils.load_room_booking()
-    err_msg = ""
-    if request.method.__eq__('POST'):
-        username = request.form.get('username')
-        roomid = request.form.get('roomid')
-        user = utils.get_user_by_username(user_name=username.strip())
-        try:
-                return redirect(url_for('booking-list'))
-        except Exception as ex:
-            err_msg = 'He thong dang co loi:' + str(ex)
-
-    return render_template('bookinglist.html', roomBooking=roomBooking)
-
-@app.route('/api/booking/payment', methods=['get', 'post'])
-def booking_payment():
-    err_msg = ''
-    receipt_id = request.json.get('receipt_id')
-    if receipt_id:
+        roomBooking = utils.load_room_booking()
+        err_msg = ""
         if request.method.__eq__('POST'):
-            in_price = request.json.get('in_price')
-            total_price = request.json.get('total_price')
-            if in_price and total_price and total_price <= in_price:
-                booking_pay_by_id(receipt_id)
+            username = request.form.get('username')
+            roomid = request.form.get('roomid')
+            user = utils.get_user_by_username(user_name=username.strip())
+            try:
+                    return redirect(url_for('booking-list'))
+            except Exception as ex:
+                err_msg = 'He thong dang co loi:' + str(ex)
+
+        return render_template('bookinglist.html', roomBooking=roomBooking)
+    else:
+        abort(403)
+        
+@app.route('/api/booking/payment', methods=['get', 'post'])
+@login_required
+def booking_payment():
+    if current_user.user_role == UserRole.STAFF:
+    
+        err_msg = ''
+        receipt_id = request.json.get('receipt_id')
+        if receipt_id:
+            if request.method.__eq__('POST'):
+                in_price = request.json.get('in_price')
+                total_price = request.json.get('total_price')
+                if in_price and total_price and total_price <= in_price:
+                    booking_pay_by_id(receipt_id)
+                    return jsonify({
+                        'code': 200,
+                        'msg': 'Thanh toán thành công'
+                    })
+                else:
+                    return jsonify({
+                    'code': 200,
+                    'price': utils.get_booking_total_price(receipt_id)
+                    })
+
+        
+
+        else:
+            err_msg = 'Không nhận được receipt_id trên server!'
+            return jsonify({
+                'code': 404,
+                'err_msg': err_msg
+            })
+    else:
+        abort(403)
+        
+
+@app.route('/api/booking/cancel-booking', methods=['delete'])
+@login_required
+def cancel_booking():
+    if current_user.user_role == UserRole.STAFF:
+
+        receipt_id = request.json.get('receipt_id')
+        err_msg = ''
+        if receipt_id:
+                utils.room_booking_cancel(receipt_id)
                 return jsonify({
                     'code': 200,
-                    'msg': 'Thanh toán thành công'
+                    'data': utils.load_room_booking()
                 })
-            else:
-                return jsonify({
-                'code': 200,
-                'price': utils.get_booking_total_price(receipt_id)
-                })
+    
+        else:
+            err_msg = 'Thông tin đặt phòng không tồn tại!'
 
-     
-
-    else:
-        err_msg = 'Không nhận được receipt_id trên server!'
         return jsonify({
             'code': 404,
             'err_msg': err_msg
         })
-    
-
-@app.route('/api/booking/cancel-booking', methods=['delete'])
-def cancel_booking():
-    receipt_id = request.json.get('receipt_id')
-    err_msg = ''
-    if receipt_id:
-            utils.room_booking_cancel(receipt_id)
-            return jsonify({
-                'code': 200,
-                'data': utils.load_room_booking()
-            })
-   
     else:
-        err_msg = 'Thông tin đặt phòng không tồn tại!'
+        abort(403)
 
-    return jsonify({
-        'code': 404,
-        'err_msg': err_msg
-    })
 
 @app.route('/register', methods = ['post', 'get'])
 def user_register():
@@ -227,12 +250,14 @@ def admin_login():
     return redirect('/admin')
 
 @app.route('/cart')
+@login_required
 def cart():
     return render_template('cart.html',
                            cart_stats=utils.cart_stats(session.get('cart')))
 
 
 @app.route('/api/add-to-cart', methods=['post'])
+@login_required
 def add_to_cart():
     data = request.json
     id = str(data.get('id'))
@@ -264,6 +289,7 @@ def add_to_cart():
     return jsonify(utils.cart_stats(session.get('cart')))
 
 @app.route('/api/update-cart', methods=['put'])
+@login_required
 def update_cart():
     id = str(request.json.get('id'))
     quantity = request.json.get('quantity')
@@ -291,6 +317,7 @@ def update_cart():
 
 
 @app.route('/api/delete-cart/<product_id>', methods=['delete'])
+@login_required
 def delete_cart(product_id):
     cart = session.get('cart')
     err_msg = ''

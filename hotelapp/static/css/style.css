@@ -89,7 +89,7 @@ input[type=button], input[type=submit], input[type=reset]  {
 ;
   border: none;
   color: white;
-  padding: 15px 80px;
+  padding: 1rem 3rem;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -295,7 +295,7 @@ input[type=text]:placeholder {
   border-radius: 10px;
   cursor: pointer;
   top:70%;
-  width:1100px;
+  width:70%;
 }
 .btn-submit{
   position: absolute  !important;
@@ -304,6 +304,9 @@ input[type=text]:placeholder {
   top:100px;
   transform: translate(-50%,-50%);
 }
+
+
+
 .wrapper{
   transform: translateY(100%);
 }
