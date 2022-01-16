@@ -34,7 +34,7 @@
           {% else %}
             <img src="{{ url_for('static', filename ='images/defaultAvatar.png') }}" class="rounded-circle" style="width: 40px" alt="avatar">
           {% endif %}
-            {{ current_user.username }}
+            <b class="ml-2">{{ current_user.username }} </b>
         </a>
         </li>
         {% if current_user.user_role == userRole.STAFF %}
