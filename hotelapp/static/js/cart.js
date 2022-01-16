@@ -137,8 +137,8 @@ function addList(){
     var a = document.getElementById('amount').value
     let area = document.getElementById('addListArea')
     area.innerHTML=`<tr>
-                        <th>Name</th>
-                        <th>Address</th>
+                        <th>Tên</th>
+                        <th>Địa chỉ</th>
                         <th>CMND</th>
                     </tr>`
     let brAdd = document.getElementById('brAddId')
