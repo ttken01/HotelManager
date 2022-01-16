@@ -295,7 +295,7 @@ input[type=text]:placeholder {
   border-radius: 10px;
   cursor: pointer;
   top:70%;
-  width:70%;
+  width:60%;
 }
 .btn-submit{
   position: absolute  !important;
