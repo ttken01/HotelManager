@@ -1,3 +1,4 @@
+//Thêm hàng vào giỏ hàng
 function addToCart(id, name, price) {
     event.preventDefault()
     let check_in = document.querySelector('#startdate').value;
@@ -25,6 +26,7 @@ function addToCart(id, name, price) {
     })
 }
 
+//Xác nhận thanh toán
 function pay() {
     if (confirm('Ban chac chan thanh toan khong?') == true) {
         fetch('/api/pay', {
@@ -38,6 +40,8 @@ function pay() {
     }
 }
 
+
+//Cập nhật thông tin giỏ hàng
 function updateCart(obj, id) {
     fetch('/api/update-cart', {
         method: 'put',
@@ -61,6 +65,8 @@ function updateCart(obj, id) {
     }).catch(err => console.error(err))
 }
 
+
+//Xóa đơn hàng
 function deleteCart(productId) {
     if (confirm('Ban chac chan xoa san pham!!!') == true) {
         fetch(`/api/delete-cart/${productId}`, {
@@ -84,6 +90,7 @@ function deleteCart(productId) {
 }
 
 
+//Thêm vào comment
 function addComment(roomId){
     let content = document.getElementById('commentId')
     if (content !== null){

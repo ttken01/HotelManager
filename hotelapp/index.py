@@ -11,6 +11,8 @@ from flask_login import login_user, logout_user, login_required, current_user
 from hotelapp.admin import *
 import cloudinary.uploader
 
+
+#Trang chủ
 @app.route('/', methods = ['post', 'get'])
 def home():
     rooms =None
@@ -35,6 +37,9 @@ def home():
 
     else: return render_template('index.html', rooms=utils.load_room())
 
+
+
+#trang booking đặt phòng cho nhân viên
 @app.route('/staff1', methods = ['post', 'get'])
 @login_required
 def staff1():
@@ -97,6 +102,7 @@ def staff1():
 
   
 
+#Trang booking list xem thông tin hóa đơn đăng nhập bằng nhân viên
 @app.route('/booking-list', methods = ['post', 'get'])
 @login_required
 def booking_list():
@@ -134,7 +140,9 @@ def booking_list():
         return render_template('bookinglist.html', roomBooking=roomBooking)
     else:
         abort(403)
-        
+
+
+#api xử lý thanh toán từ trang booking list
 @app.route('/api/booking/payment', methods=['get', 'post'])
 @login_required
 def booking_payment():
@@ -170,6 +178,7 @@ def booking_payment():
         abort(403)
         
 
+#api xử lý hủy phòng từ trang booking list
 @app.route('/api/booking/cancel-booking', methods=['delete'])
 @login_required
 def cancel_booking():
@@ -195,6 +204,7 @@ def cancel_booking():
         abort(403)
 
 
+#Trang đăng kí tài khoản khách hàng
 @app.route('/register', methods = ['post', 'get'])
 def user_register():
     err_msg = ""
@@ -242,6 +252,8 @@ def user_signin():
     return render_template('login.html', err_msg=err_msg)
 
 
+
+#Đăng xuất
 @app.route('/user-logout')
 def user_signout():
     logout_user()
@@ -250,9 +262,11 @@ def user_signout():
 
 
 
+
 @login.user_loader
 def load_user(user_id):
     return utils.get_user_by_id(user_id=user_id)
+
 
 
 @app.route('/admin-login', methods=['post'])
@@ -270,6 +284,9 @@ def admin_login():
 
     return redirect('/admin')
 
+
+
+#Trang cart: thông tin giỏ hàng
 @app.route('/cart')
 @login_required
 def cart():
@@ -277,6 +294,8 @@ def cart():
                            cart_stats=utils.cart_stats(session.get('cart')))
 
 
+
+#api xử lý thêm phòng vào giỏ
 @app.route('/api/add-to-cart', methods=['post'])
 @login_required
 def add_to_cart():
@@ -309,6 +328,9 @@ def add_to_cart():
 
     return jsonify(utils.cart_stats(session.get('cart')))
 
+
+
+#cập nhật giỏ
 @app.route('/api/update-cart', methods=['put'])
 @login_required
 def update_cart():
@@ -337,6 +359,8 @@ def update_cart():
     })
 
 
+
+#api xử lý xóa đặt trong giỏ
 @app.route('/api/delete-cart/<product_id>', methods=['delete'])
 @login_required
 def delete_cart(product_id):
@@ -361,6 +385,9 @@ def delete_cart(product_id):
         'err_msg': err_msg
     })
 
+
+
+#api thanh toán trong trang giỏi hàng cart
 @app.route('/api/pay', methods=['post'])
 @login_required
 def pay():
@@ -373,6 +400,8 @@ def pay():
     return jsonify({'code': 200})
 
 
+
+#trang thông tin phòng
 @app.route("/rooms/<int:room_id>")
 def room_detail(room_id):
     room = utils.get_room_by_id(room_id)
@@ -382,6 +411,8 @@ def room_detail(room_id):
                            room=room,
                            comments=comments)
 
+
+#Trang thông tin hóa đơn
 @app.route("/receipts/<int:receipt_id>")
 @login_required
 def receipt_detail(receipt_id):
@@ -400,6 +431,8 @@ def receipt_detail(receipt_id):
     else:
         abort(403)
 
+
+#api thêm cmt vào
 @app.route('/api/comments', methods=['post'])
 @login_required
 def add_comment():
@@ -422,6 +455,8 @@ def add_comment():
     }}
 
 
+
+#giá trị tất cả trang web được nhận
 @app.context_processor
 def common_response():
     return {

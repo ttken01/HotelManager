@@ -31,6 +31,7 @@ function checkIn(){
 };
 
 
+//Nhân viên tính tiền
 function payment(receiptId){
       axios({
         method: 'post',
@@ -51,7 +52,7 @@ function payment(receiptId){
 
 
 
-
+//Nhân viên tính tiền
 function paymentSubmit(){
   receiptId =  $('#formPaymentReceipId')
   totalPrice = $('#total_price')
@@ -96,6 +97,7 @@ function paymentSubmit(){
 
 
 
+//Hủy đặt phòng từ nhân viên
 function cancelBooking(receiptId) {
   if (confirm('Hủy đặt phòng') == true) {
       axios({
