@@ -111,13 +111,20 @@
 
     <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
       {% for p in rooms %}
-      <div class="col-lg-6 menu-item filter-{{p.kind_id}}">
-        <a href="{{ url_for('room_detail', room_id=p.id) }}"><img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt=""></a>
+      <div class="col-lg-6  menu-item filter-{{p.kind_id}}">
+        <a href="{{ url_for('room_detail', room_id=p.id) }}" target="_blank" title="Xem thông tin chi tiết"><img src="{{ url_for('static', filename = 'images/defaultRoom.png') }}" class="" alt=""></a>
         <div class="menu-content">
-          <a href="{{ url_for('room_detail', room_id=p.id) }}">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
+          <a href="{{ url_for('room_detail', room_id=p.id) }}" target="_blank" title="Xem thông tin chi tiết">{{ p.name }}</a><span>{{ "{:,.1f}".format(p.price) }} VND</span>
         </div>
-        <div class="menu-ingredients mt-4">
-          <a href="#" class="cart-btn" onclick="addToCart({{ p.id }}, '{{ p.name }}', {{ p.price }})">Đặt phòng</a>
+        <div></div>
+        <div class="booking-button-wrapper" style="display: flex; flex-wrap: nowrap;">
+          <div class="menu-ingredients mt-4">
+            <a href="#" class="cart-btn" onclick="addToCart({{ p.id }}, '{{ p.name }}', {{ p.price }})">Đặt phòng</a>
+          </div>
+          <div class="menu-ingredients mt-4">
+            <a href="{{ url_for('room_detail', room_id=p.id) }}" target="_blank" title="Xem thông tin chi tiết" class="cart-btn">Xem chi tiết</a>
+          </div>
+
         </div>
       </div>
       {% endfor %}
