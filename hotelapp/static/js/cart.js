@@ -5,6 +5,11 @@ function addToCart(id, name, price) {
 
     let check_out = document.querySelector('#enddate').value;
 
+    if (check_in > check_out){
+        var tmp = check_in;
+        check_in = check_out;
+        check_out = tmp;
+    }
     // promise
     fetch('/api/add-to-cart', {
         method: 'post',
