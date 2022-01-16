@@ -52,7 +52,7 @@
 </div>
 
 {% if current_user.is_authenticated %}
-<input type="button" value="Thanh toán" title="Thanh toán và Lưu hóa đơn" onclick="pay()" class="btn btn-danger btn-pay" />
+<input type="button" value="Đặt Và Thanh toán" title="Thanh toán và Lưu hóa đơn" onclick="pay()" class="btn btn-danger btn-pay" />
 {% else %}
 <a href="{{ url_for('user_signin', next='cart') }}">Vui long dang nhap de thanh toan</a>
 {% endif %}
